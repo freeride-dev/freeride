@@ -8,6 +8,7 @@
     "url": "https://freeride.dev"
   },
   "homepage": "https://freeride.dev",
+  "privacyPolicyUrl": "https://freeride.dev/privacy",
   "license": "MIT",
   "keywords": [
     "memory",
