@@ -2,7 +2,7 @@
 # Claude Code runs this when it connects to the FreeRide server, with the
 # repo folder as $1. It prints the headers to send: the plugin version and,
 # when the repo is linked, its project (read from .freeride.json).
-# It never prints Authorization; sign-in stays with Claude Code's OAuth.
+# It prints only these two headers. Sign-in is handled by Claude Code itself.
 # Plain sh + sed so it needs nothing installed.
 
 root=$(dirname "$0")/..
