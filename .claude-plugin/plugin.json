@@ -2,20 +2,25 @@
   "name": "freeride",
   "displayName": "FreeRide",
   "version": "0.1.10",
-  "description": "One memory for every project, in every AI you use. FreeRide keeps each project's features, ideas, decisions, docs and work history, so no AI starts from zero.",
+  "description": "Your AI tools start every session knowing your project, and keep it up to date as they work.",
   "author": {
     "name": "FreeRide",
     "url": "https://freeride.dev"
   },
   "homepage": "https://freeride.dev",
   "privacyPolicyUrl": "https://freeride.dev/privacy",
+  "termsOfServiceUrl": "https://freeride.dev/terms",
+  "supportUrl": "https://github.com/freeride-dev/freeride/issues",
+  "documentationUrl": "https://freeride.dev/docs",
   "license": "MIT",
   "keywords": [
-    "memory",
     "projects",
     "decisions",
     "ideas",
-    "mcp"
+    "docs",
+    "teams",
+    "context",
+    "claude-code"
   ],
   "repository": "https://github.com/freeride-dev/freeride"
 }

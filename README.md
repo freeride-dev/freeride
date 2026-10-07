@@ -1,8 +1,12 @@
 # FreeRide
 
-One memory for every project, in every AI you use.
+Your AI tools start every session knowing your project, and keep it up to date as they work.
 
-FreeRide keeps each project's features, ideas, decisions, docs and work history, so no AI starts from zero. Think in Claude chat, build in Claude Code, Codex or Cursor: every app reads and writes the same projects.
+FreeRide keeps one record per project: the features you're building, the decisions you made and why, your ideas, docs, and a history of the work. It lives in the cloud, so every AI app you use reads and writes the same project.
+
+Your coding agent opens each session already caught up and logs its own work. In chat, ask for a catch-up or save an idea, and it's there in your next coding session.
+
+Share a project with your team and everyone's agents work from the same picture. A web dashboard at [freeride.dev](https://freeride.dev) shows where everything stands.
 
 This repo is the FreeRide plugin for Claude (Claude Code, Claude chat, Cowork), Codex and Cursor. Docs: [freeride.dev/docs](https://freeride.dev/docs).
 
