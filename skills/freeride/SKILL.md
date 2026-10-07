@@ -1,6 +1,6 @@
 ---
 name: freeride
-description: FreeRide is the user's project memory, shared by all their AI apps — each project's features, ideas, decisions, docs and work history. Use it whenever the user talks about one of their projects, plans, ideas or decisions, or asks to catch up or what to do next, even if they never say "FreeRide". Catch up on the project before discussing it. When the user asks you to remember, note, keep track of or save an idea or decision about one of their projects, save it to FreeRide with the save tool, not to your built-in memory, because FreeRide is where their project ideas and decisions live, and their other AI apps read them from there. Ask which project when it isn't clear.
+description: FreeRide is the user's project workspace, shared by all their AI apps — each project's features, ideas, decisions, docs and work history. Use it whenever the user talks about one of their projects, plans, ideas or decisions, or asks to catch up or what to do next, even if they never say "FreeRide". Catch up on the project before discussing it. When the user asks you to remember, note, keep track of or save an idea or decision about one of their projects, save it to FreeRide with the save tool, not to your built-in memory, because FreeRide is where their project ideas and decisions live, and their other AI apps read them from there. Ask which project when it isn't clear.
 ---
 
 # FreeRide
