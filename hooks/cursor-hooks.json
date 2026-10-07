@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "hooks": {
+    "sessionStart": [
+      { "command": "\"${CURSOR_PLUGIN_ROOT}\"/scripts/cursor-hook.sh session-start.sh", "timeout": 5 }
+    ],
+    "preCompact": [
+      { "command": "\"${CURSOR_PLUGIN_ROOT}\"/scripts/cursor-hook.sh run-hook.sh cursor-state.sh precompact", "timeout": 5 }
+    ],
+    "postToolUse": [
+      { "matcher": "*", "command": "\"${CURSOR_PLUGIN_ROOT}\"/scripts/cursor-hook.sh run-hook.sh cursor-state.sh tool", "timeout": 5 },
+      { "matcher": "Write", "command": "\"${CURSOR_PLUGIN_ROOT}\"/scripts/cursor-hook.sh run-hook.sh cursor-state.sh first-edit", "timeout": 5 },
+      { "matcher": "Write", "command": "\"${CURSOR_PLUGIN_ROOT}\"/scripts/cursor-hook.sh run-hook.sh post-edit-tracking-nudge.sh", "timeout": 5 },
+      { "matcher": "Shell", "command": "\"${CURSOR_PLUGIN_ROOT}\"/scripts/cursor-hook.sh run-hook.sh post-build-tracking-nudge.sh", "timeout": 5 }
+    ]
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "freeride": {
+      "type": "http",
+      "url": "https://mcp.freeride.dev/mcp",
+      "headersHelper": "\"${CLAUDE_PLUGIN_ROOT}/scripts/headers.sh\" \"${CLAUDE_PROJECT_DIR}\""
+    }
+  }
+}

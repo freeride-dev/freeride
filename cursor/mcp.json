@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "freeride": {
+      "url": "https://mcp.freeride.dev/mcp",
+      "headers": { "X-FreeRide-Version": "plugin-0.1.10" }
+    }
+  }
+}

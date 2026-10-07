@@ -1,0 +1,45 @@
+{
+  "name": "freeride",
+  "version": "0.1.10",
+  "description": "One memory for every project, in every AI you use. FreeRide keeps each project's features, ideas, decisions, docs and work history, so no AI starts from zero.",
+  "author": {
+    "name": "FreeRide",
+    "url": "https://freeride.dev"
+  },
+  "homepage": "https://freeride.dev",
+  "repository": "https://github.com/freeride-dev/freeride",
+  "license": "MIT",
+  "keywords": [
+    "memory",
+    "projects",
+    "decisions",
+    "ideas",
+    "mcp"
+  ],
+  "skills": [
+    "./skills/",
+    "./agent-skills/"
+  ],
+  "mcpServers": "./codex/mcp.json",
+  "hooks": "./hooks/hooks.json",
+  "interface": {
+    "displayName": "FreeRide",
+    "shortDescription": "Project memory for builders",
+    "longDescription": "FreeRide keeps each project's features, ideas, decisions, docs and work history in one place your coding agents keep current, and shows it to you in a dashboard. The same project follows you across Codex, Claude Code, Cursor and ChatGPT.",
+    "developerName": "FreeRide",
+    "category": "Productivity",
+    "capabilities": [
+      "Interactive",
+      "Read",
+      "Write"
+    ],
+    "websiteURL": "https://freeride.dev",
+    "defaultPrompt": [
+      "Catch me up on this project",
+      "Link this repo to FreeRide",
+      "What should I work on next?"
+    ],
+    "logo": "./assets/logo.png",
+    "composerIcon": "./assets/logo.png"
+  }
+}

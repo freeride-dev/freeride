@@ -1,0 +1,12 @@
+{
+  "name": "freeride",
+  "owner": { "name": "FreeRide", "url": "https://freeride.dev" },
+  "description": "FreeRide: one memory for every project, in every AI you use.",
+  "plugins": [
+    {
+      "name": "freeride",
+      "source": "./",
+      "description": "Project memory for every AI app: catch up on any project, save ideas and decisions, and track build work in linked repos."
+    }
+  ]
+}

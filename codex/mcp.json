@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "freeride": {
+      "type": "http",
+      "url": "https://mcp.freeride.dev/mcp",
+      "http_headers_helper": "p=$(sed -n 's/.*\"project\"[[:space:]]*:[[:space:]]*\"\\([0-9a-fA-F-]\\{36\\}\\)\".*/\\1/p' .freeride.json 2>/dev/null | head -n 1); if [ -n \"$p\" ]; then printf '{\"X-FreeRide-Version\":\"plugin-0.1.10\",\"X-FreeRide-Project\":\"%s\"}' \"$p\"; else printf '{\"X-FreeRide-Version\":\"plugin-0.1.10\"}'; fi"
+    }
+  }
+}

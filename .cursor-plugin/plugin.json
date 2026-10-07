@@ -1,0 +1,27 @@
+{
+  "name": "freeride",
+  "version": "0.1.10",
+  "description": "One memory for every project, in every AI you use. FreeRide keeps each project's features, ideas, decisions, docs and work history, so no AI starts from zero.",
+  "author": {
+    "name": "FreeRide",
+    "url": "https://freeride.dev"
+  },
+  "homepage": "https://freeride.dev",
+  "repository": "https://github.com/freeride-dev/freeride",
+  "license": "MIT",
+  "keywords": [
+    "memory",
+    "projects",
+    "decisions",
+    "ideas",
+    "mcp"
+  ],
+  "skills": [
+    "./skills/",
+    "./agent-skills/"
+  ],
+  "commands": [],
+  "hooks": "./hooks/cursor-hooks.json",
+  "mcpServers": "./cursor/mcp.json",
+  "logo": "./assets/logo.png"
+}
