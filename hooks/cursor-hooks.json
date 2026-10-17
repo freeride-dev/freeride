@@ -2,7 +2,8 @@
   "version": 1,
   "hooks": {
     "sessionStart": [
-      { "command": "\"${CURSOR_PLUGIN_ROOT}\"/scripts/cursor-hook.sh session-start.sh", "timeout": 5 }
+      { "command": "\"${CURSOR_PLUGIN_ROOT}\"/scripts/cursor-hook.sh session-start.sh", "timeout": 5 },
+      { "command": "\"${CURSOR_PLUGIN_ROOT}\"/scripts/cursor-hook.sh self-update.sh", "timeout": 5 }
     ],
     "preCompact": [
       { "command": "\"${CURSOR_PLUGIN_ROOT}\"/scripts/cursor-hook.sh run-hook.sh cursor-state.sh precompact", "timeout": 5 }

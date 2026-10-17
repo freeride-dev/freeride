@@ -29,7 +29,7 @@ description: Codex and Cursor (not Claude Code, which has /freeride:setup). Link
   - **One block per file:** replace only what's between existing markers. If a file has several blocks, keep the first and remove the rest. If it has none, append one. Never change text outside the markers.
 - **Old setup:** back up its files to `.codex/freeride-backup-<YYYY-MM-DD>/` (or `.cursor/…`) and add that backup folder pattern to `.gitignore` (backups can hold keys), then switch it off: Codex `enabled = false` under `[mcp_servers.freeride]`; Cursor remove only the `freeride` entry from `.cursor/mcp.json`; both remove only FreeRide's nudge entries from the hooks file.
 
-Wait for a yes. Do only what's approved.
+Wait for a yes. Do only what's approved. If the user already said yes to linking this repo (for example to FreeRide's offer to link it) and the plan only adds things (`.freeride.json`, new rules blocks, new files) with no older setup to change, that yes counts: apply it and list what you did, without asking again.
 
 ## 4. Apply and check
 

@@ -29,15 +29,13 @@ codex plugin marketplace add freeride-dev/freeride
 
 Then install **FreeRide** from Plugins in the Codex app (or `/plugins` in the CLI).
 
-**Cursor:** open **Customize** in the sidebar, find **FreeRide** and select **Install**. If it isn't listed yet, install it by hand:
+**Cursor:** FreeRide isn't in Cursor's plugin list yet, so it installs from GitHub into Cursor's local plugins folder:
 
 ```
-git clone https://github.com/freeride-dev/freeride ~/freeride-plugin
-mkdir -p ~/.cursor/plugins/local
-cp -R ~/freeride-plugin ~/.cursor/plugins/local/freeride
+git clone https://github.com/freeride-dev/freeride ~/.cursor/plugins/local/freeride
 ```
 
-Restart Cursor. Copy the folder; Cursor ignores a symlink here.
+Restart Cursor. It keeps itself up to date: once a day, at session start, it fast-forwards to the latest version in the background (only in a git clone, never over local changes). Clone it straight there; Cursor ignores a symlink in this folder.
 
 ## Sign in
 
@@ -50,7 +48,7 @@ The first time FreeRide connects, a browser window opens. Sign in with Google or
 
 ## Link a repo
 
-In Claude Code: `/freeride:setup`. In Codex or Cursor, ask: *"Set up FreeRide for this repo."*
+In Claude Code: `/freeride:setup`. In Codex: `$freeride-setup`. In Cursor: `/freeride-setup`. Or just ask the agent: *"Set up FreeRide for this repo."*
 
 Setup writes `.freeride.json` (the project's id, no secrets) and adds FreeRide's rules to `CLAUDE.md` and `AGENTS.md`, so the repo works in every agent. It shows every change and asks once. Commit the files; teammates are then linked too.
 

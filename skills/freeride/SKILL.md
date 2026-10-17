@@ -32,7 +32,7 @@ The repo's CLAUDE.md or AGENTS.md (or the FreeRide plugin, if the repo has no Fr
 
 - `start_session` before your first response, every conversation.
 - `begin_work(feature_id)` before substantial work on a feature.
-- `complete_work(feature_id, summary)` after meaningful progress, then `confirm_docs`.
+- `complete_work(feature_id, summary)` after meaningful progress, with `files_changed` and `key_terms`, then `confirm_docs`.
 - `end_session` when the user is done.
 
 Linked repo (`.freeride.json`) but no FreeRide block in this app's instructions file (`CLAUDE.md` in Claude Code, `AGENTS.md` in Codex and Cursor)? Offer once to run the setup, which adds it.

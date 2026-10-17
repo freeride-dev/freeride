@@ -38,7 +38,7 @@ Only create files or edit in place; delete nothing (safe under auto mode).
   - Leftovers (old scripts, retired commands, `.claude/.freeride-version`, the `.mcp.json` entry) are harmless; delete only if asked. Tell the user to stop running `npx freeride update` here.
 - **`claude.ai freeride` showed up:** that's their claude.ai connection, which Claude Code also loads, so FreeRide appears twice and that copy doesn't know the repo's project. Offer to add `{ "serverName": "claude.ai freeride" }` to `deniedMcpServers` in `~/.claude/settings.json` (keep everything else). It covers every repo; chat and other claude.ai connectors keep working. Not `/mcp` → Disable (one repo only) or `disableClaudeAiConnectors` (all connectors).
 
-Wait for a yes. Do only what's approved.
+Wait for a yes. Do only what's approved. If the user already said yes to linking this repo (for example to FreeRide's offer to link it) and the plan only adds things (`.freeride.json`, new rules blocks, new files) with no older setup to change, that yes counts: apply it and list what you did, without asking again.
 
 ## 4. Apply and check
 
