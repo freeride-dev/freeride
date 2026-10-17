@@ -1,7 +1,7 @@
 {
   "name": "freeride",
-  "version": "0.1.12",
-  "description": "Your AI tools start every session knowing your project, and keep it up to date as they work.",
+  "version": "0.1.13",
+  "description": "The project workspace built into your AI tools. Your agents keep every project's features, decisions, ideas and docs up to date as they work.",
   "author": {
     "name": "FreeRide",
     "url": "https://freeride.dev"

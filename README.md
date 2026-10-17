@@ -1,14 +1,12 @@
 # FreeRide
 
-Your AI tools start every session knowing your project, and keep it up to date as they work.
+You build at AI speed. Your project keeps up.
 
-FreeRide keeps one record per project: the features you're building, the decisions you made and why, your ideas, docs, and a history of the work. It lives in the cloud, so every AI app you use reads and writes the same project.
+FreeRide is the project workspace built into your AI tools. Each project keeps one living record of everything you build and why. Your agents keep it up to date as they work and check it before they start, so every session begins caught up.
 
-Your coding agent opens each session already caught up and logs its own work. In chat, ask for a catch-up or save an idea, and it's there in your next coding session.
+It works in Claude Code, Claude chat and Cowork, Codex, the ChatGPT desktop app and Cursor, all on the same projects. Share a project and your team works from the same picture. Your projects live at [freeride.dev](https://freeride.dev).
 
-Share a project with your team and everyone's agents work from the same picture. A web dashboard at [freeride.dev](https://freeride.dev) shows where everything stands.
-
-This repo is the FreeRide plugin for Claude (Claude Code, Claude chat, Cowork), Codex and Cursor. Docs: [freeride.dev/docs](https://freeride.dev/docs).
+Free for individuals. Teams: [freeride.dev/pricing](https://freeride.dev/pricing). Docs: [freeride.dev/docs](https://freeride.dev/docs).
 
 ## Install
 
@@ -19,47 +17,47 @@ This repo is the FreeRide plugin for Claude (Claude Code, Claude chat, Cowork), 
 /plugin install freeride@freeride
 ```
 
-**Claude chat and Cowork:** on claude.ai, go to **Customize → Plugins → Add → Add marketplace**, enter `freeride-dev/freeride` and install **FreeRide**. Then open the plugin's **Connectors** tab and connect FreeRide.
+**Claude chat and Cowork:** on claude.ai, go to **Customize → Plugins → Add → Add marketplace**, enter `freeride-dev/freeride` and install **FreeRide**. Then connect it in the plugin's **Connectors** tab.
 
-**Codex**
+**Codex** (also covers Work mode in the ChatGPT desktop app)
 
 ```
 codex plugin marketplace add freeride-dev/freeride
 ```
 
-Then install **FreeRide** from Plugins in the Codex app (or `/plugins` in the CLI).
+Then install **FreeRide** from Plugins in the Codex app, or `/plugins` in the CLI.
 
-**Cursor:** FreeRide isn't in Cursor's plugin list yet, so it installs from GitHub into Cursor's local plugins folder:
+**Cursor**
 
 ```
 git clone https://github.com/freeride-dev/freeride ~/.cursor/plugins/local/freeride
 ```
 
-Restart Cursor. It keeps itself up to date: once a day, at session start, it fast-forwards to the latest version in the background (only in a git clone, never over local changes). Clone it straight there; Cursor ignores a symlink in this folder.
+Restart Cursor. The plugin updates itself.
 
 ## Sign in
 
-The first time FreeRide connects, a browser window opens. Sign in with Google or email and approve.
+The first time FreeRide connects, a browser window opens. Sign in with Google or email and approve. If it doesn't open:
 
-- **Claude Code:** if you're not asked, run `/mcp` and pick the FreeRide server.
-- **claude.ai:** the plugin's **Connectors** tab. If the Claude Desktop app is connected, connect FreeRide there too (**Settings → Connectors**).
-- **Codex:** when asked, or `codex mcp login freeride`.
-- **Cursor:** **Authenticate** next to the freeride server on the plugin's page.
+- **Claude Code:** run `/mcp`
+- **Claude chat and Cowork:** use the plugin's **Connectors** tab on claude.ai
+- **Codex:** run `codex mcp login freeride`
+- **Cursor:** select **Authenticate** on FreeRide in **Customize**
 
-## Link a repo
+## Set up a repo
 
-In Claude Code: `/freeride:setup`. In Codex: `$freeride-setup`. In Cursor: `/freeride-setup`. Or just ask the agent: *"Set up FreeRide for this repo."*
+Once per repo, in any coding app: `/freeride:setup` in Claude Code, `$freeride-setup` in Codex, `/freeride-setup` in Cursor. Or ask your agent to set up FreeRide.
 
-Setup writes `.freeride.json` (the project's id, no secrets) and adds FreeRide's rules to `CLAUDE.md` and `AGENTS.md`, so the repo works in every agent. It shows every change and asks once. Commit the files; teammates are then linked too.
+Setup links the repo to a project and adds FreeRide's rules to `CLAUDE.md` and `AGENTS.md`. It shows every change first. Commit the result and your teammates are set up too.
 
-Chat needs no linking: name the project ("catch me up on Mealwise").
+Chat and Cowork need no setup. Just name the project.
 
 ## What's inside
 
-- **Connection** to the FreeRide server (`https://mcp.freeride.dev/mcp`).
-- **Skills:** `freeride` (when and how to use FreeRide, in any app) and `freeride-setup` (repo setup for Codex and Cursor).
-- **Hooks** for coding agents: rules at session start when a repo lacks them, and short nudges to log work. They never force a tool call.
-- **Commands** (Claude Code): `/freeride:setup` and `/freeride:status`.
+- A connection to the FreeRide server
+- Skills that tell your agent when and how to use FreeRide
+- Hooks for coding agents: session-start context and short reminders to log work, never forced
+- Commands in Claude Code: `/freeride:setup` and `/freeride:status`
 
 ## License
 
