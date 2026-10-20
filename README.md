@@ -10,6 +10,8 @@ Free for individuals. Teams: [freeride.dev/pricing](https://freeride.dev/pricing
 
 ## Install
 
+FreeRide is in review for Claude's, OpenAI's and Cursor's plugin directories. Until it's listed, add it from this repository.
+
 **Claude Code**
 
 ```
@@ -17,15 +19,29 @@ Free for individuals. Teams: [freeride.dev/pricing](https://freeride.dev/pricing
 /plugin install freeride@freeride
 ```
 
-**Claude chat and Cowork:** on claude.ai, go to **Customize → Plugins → Add → Add marketplace**, enter `freeride-dev/freeride` and install **FreeRide**. Then connect it in the plugin's **Connectors** tab.
+For updates, turn on auto-update once: **/plugin → Marketplaces → freeride → Enable auto-update**.
 
-**Codex** (also covers Work mode in the ChatGPT desktop app)
+**Claude chat and Cowork** (paid Claude plans)
+
+1. On claude.ai or in the Claude app, open **Customize → Plugins → Add → Add marketplace → Add from a repository**.
+2. Paste `https://github.com/freeride-dev/freeride` and select **Sync**. No need to connect GitHub.
+3. Add **FreeRide**, then select **Connect** on its **Connectors** tab.
+
+For updates: **Add → Manage marketplaces**, open **freeride**'s menu and turn on **Sync automatically**. On the free plan, add `https://mcp.freeride.dev/mcp` as a custom connector instead (**Customize → Connectors → Add → Add custom connector**).
+
+**Codex** (the app, the CLI and the ChatGPT desktop app's Work mode)
+
+```
+curl -fsSL https://freeride.dev/install/codex.sh | sh
+```
+
+It finds Codex (the apps keep their own copy), installs the plugin and signs you in. Restart Codex afterwards. With the Codex CLI you can run the steps yourself:
 
 ```
 codex plugin marketplace add freeride-dev/freeride
+codex plugin add freeride@freeride
+codex mcp login freeride
 ```
-
-Then install **FreeRide** from Plugins in the Codex app, or `/plugins` in the CLI.
 
 **Cursor**
 
@@ -41,7 +57,7 @@ The first time FreeRide connects, a browser window opens. Sign in with Google or
 
 - **Claude Code:** run `/mcp`
 - **Claude chat and Cowork:** use the plugin's **Connectors** tab on claude.ai
-- **Codex:** run `codex mcp login freeride`
+- **Codex:** run the install command again, or `codex mcp login freeride`
 - **Cursor:** select **Authenticate** on FreeRide in **Customize**
 
 ## Set up a repo
