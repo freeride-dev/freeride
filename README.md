@@ -25,7 +25,7 @@ For updates, turn on auto-update once: **/plugin → Marketplaces → freeride �
 
 1. On claude.ai or in the Claude app, open **Customize → Plugins → Add → Add marketplace → Add from a repository**.
 2. Paste `https://github.com/freeride-dev/freeride` and select **Sync**. No need to connect GitHub.
-3. Add **FreeRide**, then select **Connect** on its **Connectors** tab.
+3. Add **FreeRide**. Then click it to open it, go to its **Connectors** tab and select **Connect**.
 
 For updates: **Add → Manage marketplaces**, open **freeride**'s menu and turn on **Sync automatically**. On the free plan, add `https://mcp.freeride.dev/mcp` as a custom connector instead (**Customize → Connectors → Add → Add custom connector**).
 
