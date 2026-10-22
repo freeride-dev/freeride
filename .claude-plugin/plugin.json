@@ -1,7 +1,7 @@
 {
   "name": "freeride",
   "displayName": "FreeRide",
-  "version": "0.1.13",
+  "version": "0.1.14",
   "description": "The project workspace built into your AI tools. Your agents keep every project's features, decisions, ideas and docs up to date as they work.",
   "author": {
     "name": "FreeRide",

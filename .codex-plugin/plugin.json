@@ -1,6 +1,6 @@
 {
   "name": "freeride",
-  "version": "0.1.13",
+  "version": "0.1.14",
   "description": "The project workspace built into your AI tools. Your agents keep every project's features, decisions, ideas and docs up to date as they work.",
   "author": {
     "name": "FreeRide",
@@ -10,7 +10,7 @@
   "repository": "https://github.com/freeride-dev/freeride",
   "license": "MIT",
   "keywords": [
-    "memory",
+    "workspace",
     "projects",
     "decisions",
     "ideas",
@@ -25,7 +25,7 @@
   "interface": {
     "displayName": "FreeRide",
     "shortDescription": "Project workspace for your AI",
-    "longDescription": "FreeRide keeps each project's features, ideas, decisions, docs and work history in one place your coding agents keep current, and shows it to you in a dashboard. The same project follows you across Codex, Claude Code, Cursor and ChatGPT.",
+    "longDescription": "FreeRide keeps each project's features, ideas, decisions, docs and work history in one place your AI agents keep current, and shows it to you in a dashboard. The same project follows you across Codex, Claude Code, Cursor and ChatGPT.",
     "developerName": "FreeRide",
     "category": "Productivity",
     "capabilities": [

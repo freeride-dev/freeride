@@ -1,6 +1,7 @@
 #!/bin/bash
-# PostToolUse hook (Edit/Write): nudges the agent to call complete_work after
-# substantial code changes. Fires on every 3rd Edit/Write (3, 6, 9...) since
+# PostToolUse hook (Edit/Write, and Bash commands that write files): nudges
+# the agent to call complete_work after substantial code changes. Fires on
+# every 3rd edit (3, 6, 9...) since
 # the last complete_work/start_session using modulo arithmetic.
 #
 # This fires DURING the agent's turn (unlike Stop hooks which fire after),
@@ -11,6 +12,7 @@
 # re-nudge counting. Modulo arithmetic handles this cleanly.
 
 INPUT=$(cat)
+. "$(dirname "$0")/edit-patterns.sh"
 TRANSCRIPT=$(echo "$INPUT" | jq -r '.transcript_path // empty')
 
 # Need transcript to check
@@ -29,8 +31,14 @@ if [ -n "$LAST_TRACKED_LINE" ]; then
   RECENT=$(echo "$RECENT" | tail -n +"$((LAST_TRACKED_LINE + 1))")
 fi
 
-# Count Edit/Write tool_use entries since last tracking call
-EDIT_COUNT=$(echo "$RECENT" | grep -cE '"type":"tool_use".*"name":"(Edit|Write|StrReplace)"' || true)
+# A shell command that didn't write anything isn't an edit.
+TOOL_COMMAND=$(echo "$INPUT" | jq -r '.tool_input.command // empty' 2>/dev/null)
+if [ -n "$TOOL_COMMAND" ] && ! is_write_command "$TOOL_COMMAND"; then
+  exit 0
+fi
+
+# Count edits (edit tools and shell commands that write files) since the last tracking call
+EDIT_COUNT=$(count_edits "$RECENT")
 
 # Check complete_work wasn't called since tracking point
 HAS_COMPLETE=$(echo "$RECENT" | grep -cE '"name":"mcp__[^"]*__complete_work"|"toolName":"complete_work"' || true)

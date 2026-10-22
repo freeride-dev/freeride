@@ -1,13 +1,14 @@
 #!/bin/bash
-# PreToolUse hook (Edit/Write): nudges the agent that FreeRide is connected
-# before code changes begin. Fires once per work stretch — before the first
-# Edit/Write since the last complete_work/start_session.
+# PreToolUse hook (Edit/Write, and Bash commands that write files): nudges the
+# agent that FreeRide is connected before code changes begin. Fires once per
+# work stretch — before the first edit since the last complete_work/start_session.
 #
 # This fires BEFORE the edit, so the current edit isn't in the transcript yet.
 # If any prior Edit/Write exists since the last tracking call, this isn't the
 # first edit — stay silent.
 
 INPUT=$(cat)
+. "$(dirname "$0")/edit-patterns.sh"
 TRANSCRIPT=$(echo "$INPUT" | jq -r '.transcript_path // empty')
 
 # Need transcript to check
@@ -29,9 +30,15 @@ if echo "$RECENT" | grep -qE '"name":"mcp__[^"]*__begin_work"'; then
   exit 0
 fi
 
-# If there are already Edit/Write calls since the last tracking point,
-# this isn't the first edit — stay silent.
-if echo "$RECENT" | grep -qE '"type":"tool_use".*"name":"(Edit|Write)"'; then
+# A shell command only counts if it writes files.
+TOOL_COMMAND=$(echo "$INPUT" | jq -r '.tool_input.command // empty' 2>/dev/null)
+if [ -n "$TOOL_COMMAND" ] && ! is_write_command "$TOOL_COMMAND"; then
+  exit 0
+fi
+
+# If there are already edits (edit tools or shell writes) since the last
+# tracking point, this isn't the first edit — stay silent.
+if [ "$(count_edits "$RECENT")" -gt 0 ]; then
   exit 0
 fi
 

@@ -1,6 +1,7 @@
 #!/bin/bash
 # PostToolUse hook (Bash): nudges the agent to call complete_work after a
-# successful build or test command when there are untracked edits.
+# successful build or test command when there are untracked edits, and to close
+# FreeRide waits after a successful push, deploy or release.
 #
 # This fires at the natural "work verified" milestone — the agent just confirmed
 # its code works and is about to summarize. Perfect moment for tracking.
@@ -8,13 +9,34 @@
 # Only fires if:
 # 1. The Bash command was a build/test/compile (matched by keyword)
 # 2. The command succeeded (exit code 0)
-# 3. There are untracked Edit/Write calls since the last complete_work/start_session
+# 3. There are untracked edits (edit tools or shell commands that write files)
+#    since the last complete_work/start_session
 # 4. This nudge hasn't already fired since the last tracking call
 
 INPUT=$(cat)
+. "$(dirname "$0")/edit-patterns.sh"
 TOOL_INPUT_COMMAND=$(echo "$INPUT" | jq -r '.tool_input.command // empty')
 EXIT_CODE=$(echo "$INPUT" | jq -r '.tool_response.exitCode // .tool_response.exit_code // empty')
 TRANSCRIPT=$(echo "$INPUT" | jq -r '.transcript_path // empty')
+
+# Shipping (a push, a deploy, a publish or release) is when work FreeRide is
+# waiting on usually goes out, and nothing else tells the agent: FreeRide can't
+# see pushes or deploys. Remind it to close the waits this answers. Fires on
+# every successful ship command, edits or not.
+if echo "$TOOL_INPUT_COMMAND" | grep -qiE '\bgit push\b|\b(fly|flyctl) deploy\b|\bvercel( +(--prod|deploy|--prebuilt)|$)|\bnpm publish\b|\bgh release create\b|\bwrangler (deploy|publish)\b|\bnetlify deploy\b|\bfirebase deploy\b|\bsupabase (db push|functions deploy)\b' \
+  && ! echo "$TOOL_INPUT_COMMAND" | grep -qE -- '--dry-run|-n\b'; then
+  if [ -z "$EXIT_CODE" ] || [ "$EXIT_CODE" = "0" ]; then
+    cat <<'HOOK_OUTPUT'
+{
+  "hookSpecificOutput": {
+    "hookEventName": "PostToolUse",
+    "additionalContext": "You just shipped (a push, deploy or release). If FreeRide is waiting on this (a deploy, a release, the user's OK), close those waits now: save(waiting_closed: [{id or on, note}]), with a note saying what went out. The open ones are in waiting_on from start_session or catch_up."
+  }
+}
+HOOK_OUTPUT
+    exit 0
+  fi
+fi
 
 # Only care about build/test/compile commands
 if ! echo "$TOOL_INPUT_COMMAND" | grep -qiE '\b(build|test|compile|check|lint)\b|^tsc|^make\b|^cargo (build|test|check)|^go (build|test)|^pytest|^jest|^vitest|^rspec|^gradle|^mvn|^flutter (build|test)|^swift (build|test)'; then
@@ -59,7 +81,7 @@ if [ "$SCAN_FROM" -gt 0 ]; then
 fi
 
 # Check if there are any untracked Edit/Write calls
-EDIT_COUNT=$(echo "$RECENT" | grep -cE '"type":"tool_use".*"name":"(Edit|Write|StrReplace)"' || true)
+EDIT_COUNT=$(count_edits "$RECENT")
 
 if [ "$EDIT_COUNT" -gt 0 ]; then
   HAS_COMPLETE=$(echo "$RECENT" | grep -cE '"name":"mcp__[^"]*__complete_work"|"toolName":"complete_work"' || true)
