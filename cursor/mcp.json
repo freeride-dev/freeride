@@ -2,7 +2,7 @@
   "mcpServers": {
     "freeride": {
       "url": "https://mcp.freeride.dev/mcp",
-      "headers": { "X-FreeRide-Version": "plugin-0.1.16" }
+      "headers": { "X-FreeRide-Version": "plugin-0.1.17" }
     }
   }
 }

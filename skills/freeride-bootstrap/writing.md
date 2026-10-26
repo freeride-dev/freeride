@@ -2,7 +2,7 @@
 
 Write for a reader who has never seen the project: plain, short sentences in the team's words. Every doc, guides and plans included, has two layers: plain language first, then technical detail under exactly `### Technical Details`. FreeRide warns when that heading is missing; fix the doc and save it again. Name files as code (`src/sim/run.ts`). Ground every claim in what you read. Where a repo doc and the code disagree, the code wins. Note the drift if it matters, but don't repeat the stale claim.
 
-Area links: write `[Area name](feature:<id>)`. Docs can use GitHub callouts (`> [!NOTE]`), ```mermaid diagrams, and tables.
+Area links: `[@Area name](area:<id>)` when the text matters to that area's work (a cross-area rule, a dependency): with the `@`, the doc also shows up in that area's `begin_work`. The overview's list of parts uses the plain form, `[Area name](area:<id>)`, so it doesn't show up in every area. The old `feature:<id>` still works but isn't for new docs. Docs can use GitHub callouts (`> [!NOTE]`), ```mermaid diagrams, and tables.
 
 ## The overview (one per project)
 
@@ -14,7 +14,7 @@ Area links: write `[Area name](feature:<id>)`. Docs can use GitHub callouts (`> 
 
 ## What it is
 ## Who it's for
-## Main parts          (one line each, linked: [Name](feature:<id>); parents first, their parts indented)
+## Main parts          (one line each, linked: [Name](area:<id>); parents first, their parts indented)
 ## How it works        (the shape of the system, briefly)
 ## Rules               (only if the project has some: budgets, gates, must-nots)
 ## Where to find more  (the key docs by name, the repo, how to run it)

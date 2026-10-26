@@ -1,6 +1,6 @@
 # Reading the project
 
-Five lanes. With parallel helpers (subagents), give each lane to one helper with the brief below, word for word, plus the repo path and the project's apparent kind. Without helpers, work through them in order. Each lane is read-only: no edits, no installs, no running the project, no network, and no git command that changes anything. Never print secrets: name the file instead.
+Five lanes. With parallel helpers (subagents), give each lane to one helper with the brief below, word for word, plus the repo path, the project's apparent kind, and which version to read (the folder, or the remote's version when step 0 found the copy behind: then `git ls-tree -r @{u}` and `git show @{u}:<path>` instead of the files). Without helpers, work through them in order. Each lane is read-only: no edits, no installs, no running the project, no network, and no git command that changes anything. Never print secrets: name the file instead.
 
 Every lane reports **facts with their sources** (file and line, or commit hash), marks anything unclear as unclear, and lists what it skipped or only sampled.
 
@@ -29,7 +29,7 @@ Every lane reports **facts with their sources** (file and line, or commit hash),
 
 > Use only read-only git commands (log, show, shortlog, branch -r, tag, diff). Report:
 > 1. The timeline: versions, releases, tags and phases, one line each, with what each delivered and any change of direction (an engine switch, a rewrite) and its stated reason.
-> 2. Per area of the project: when it started, the date it was last touched, how much churn, and a stage call (live, building or planned) with the evidence. Something specced or with assets made but no code is planned. Something that exists but isn't in real use yet is building, including every product area of a product that hasn't launched (builds only for the team or playtesters). In real use by real users, or a process the team uses, is live, however busy it is. Say whether the product has launched, and the evidence.
+> 2. Per area of the project: when it started, the date it was last touched, how much churn, and a stage call (backlog, planned, building, review or live) with the evidence. Mentioned but nobody has committed to it is backlog. Specced or with assets made but no code is planned. Exists but isn't in real use yet is building, including every product area of a product that hasn't launched (builds only for the team or playtesters). Finished and only waiting on sign-off or the product's launch is review: nothing open for it in the newest plan or feedback. In real use by real users, or a process the team uses, is live, however busy it is. Say whether the product has launched, and the evidence.
 > 3. What's happening now: the last days of work in detail, and what the newest plan or spec asks for versus what's already in the code. Suggest the project's current focus in one or two lines.
 > 4. Who: the people and accounts, who works on which areas, and whether commits are written by agents for someone (co-author lines, "the user's…" voice).
 > 5. Decisions with reasons stated in commit messages, quoted with hash.

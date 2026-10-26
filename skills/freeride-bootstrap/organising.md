@@ -38,7 +38,11 @@ Set each area's stage from the code, not from how busy it is. Whether anyone is 
 - **Backlog:** a real future area nobody has committed to, such as a release channel the team mentions but hasn't started.
 - **Archived:** ended, with knowledge worth keeping (a finished migration, a past campaign). Rare in a bootstrap.
 
-A parent has no stage of its own: it shows its parts'.
+**Building or review, before launch.** Review when the area is finished: nothing open for it in the newest plan or feedback, and no recent commits still building it out. Otherwise building. When unsure, building.
+
+**An area that is both product and process** (a game's sound plus the pipeline that makes it) takes the product's stage. The process gets a section in its doc. Split it into two areas only if the team treats them separately.
+
+A parent has no stage of its own: it shows its parts'. Never set one.
 
 **Last work.** For every area with history, pass `last_work_at`: the date of the last commit that touched its files or docs, from the history lane. Without it a new project reads Quiet everywhere, because no work has been logged in FreeRide yet.
 
@@ -51,19 +55,29 @@ Areas don't take a priority: an area's attention comes from its open ideas. Give
 - **Medium:** the rest that matters.
 - **Low:** later or optional.
 
-## Worked example: Elemies (a phone-browser game, agreed 2026-10-24)
+## Worked example: Tidepool (an invented surf-school booking app)
+
+Tidepool lets people find and book surf lessons, and lets schools run their week. It hasn't launched: builds go only to the team's testers.
 
 | Area | Type |
 |---|---|
-| **Gameplay**: In-Game · Arenas & Levels · Characters · Tutorial | Parent, 4 parts |
-| **Meta Game**: Lobby · Kingdom Maps · Collection · Shop · Rewards & Progression | Parent, 5 parts |
-| Art Pipeline · Sound & Music · Engine & Performance · Testing & Release | Standalone |
-| App Store Release | Standalone, backlog |
+| **Booking**: Lesson Search · Checkout · Calendar · Reminders | Parent, 4 parts |
+| **School Admin**: Instructors · Schedules · Payouts | Parent, 3 parts |
+| Design System · Testing & Release | Standalone |
+| Analytics | Standalone, planned |
+| App Store Launch | Standalone, backlog |
 
-Stages: the game hasn't launched (v0.x builds go to the owner's playtests), so its product areas (Gameplay's and Meta Game's parts, Sound & Music, Engine & Performance) are building. Art Pipeline and Testing & Release are live: the team uses them every day. App Store Release is backlog. All of them read Active, because the whole game was built in the last ten days and `last_work_at` came from the git history.
+Stages:
+- **Building:** the product areas (Booking's and School Admin's parts, Design System), because the app hasn't launched.
+- **Review:** Checkout. It's finished, the latest feedback round asks nothing of it, and it only waits on the launch.
+- **Live:** Testing & Release, a process the team uses every day.
+- **Planned:** Analytics, specced with no code yet.
+- **Backlog:** App Store Launch, mentioned but not started.
+
+Each area's `last_work_at` comes from git, so areas nobody touched for weeks read Quiet even in a busy project.
 
 How it got there:
-- **A flat list of 11** risked one huge Gameplay area.
-- **Four category parents** filled boxes that weren't families ("Tech & Release", "Art & Sound").
-- **A six-way Gameplay split** (Run & Combat, Enemies & Bosses, Levels & Balance…) was the agent's logic. The team's feedback grouped requests as "In-game", "Kingdom Maps", "Lobby", "Collection", "Tutorial", "Arenas" and "Characters", so the map follows those.
-- **Small things** (a deploy script, a hidden test menu, a playtest page) became sections of the Testing & Release doc, not areas.
+- **A flat list of 12** risked one huge Booking area.
+- **"Frontend" and "Backend" parents** were code folders, not families people think of together.
+- **The agent's own split** (Search & Filters, Payments, Notifications…) wasn't how the team talks. Their feedback rounds use the headings "Search", "Checkout", "Calendar", "Reminders", "Instructors" and "Payouts", so the map follows those.
+- **Small things** (a seed script, a debug screen, the privacy page) became sections of the Testing & Release and Design System docs, not areas.

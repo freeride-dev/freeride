@@ -13,7 +13,7 @@ Two readers use what you build:
 
 ## Ground rules
 
-- **The repo is read-only.** Never edit, commit, push, install or run the project. Never print secrets: if a key or token appears, name the file only.
+- **The repo is read-only.** Never edit, commit, push, install or run the project. Never print secrets: if a key or token appears, name the file only. The one exception is linking the repo to its project in step 0, with the user's yes: FreeRide's setup writes `.freeride.json` and the FreeRide block in the agent instructions file, and nothing else.
 - **Nothing false.** Every claim comes from a file you read, a commit, or the user's own words. When unsure, say so or leave it out. Wrong docs are worse than none.
 - **The team's words, not yours.** Names, groupings and descriptions follow how the team already talks about the project.
 - **One stop only.** No questions before or while you read. Make every call you can yourself, and put doubts in the final "check these first" list instead of interrupting.
@@ -21,13 +21,18 @@ Two readers use what you build:
 ## 0. Check it's the right job
 
 1. **Which project?** Use the project the repo is linked to (`.freeride.json`), or the one the user named. If there's none, offer `create(kind: "project", name, description)`. Pass `project_id` on every FreeRide call.
-2. **Is the project empty?** Run `search(kind: "features", brief: true)` (it lists the project's areas). If it already has areas, say so. This version fills empty projects. Offer to add only what's missing, reusing the existing areas, and never create a duplicate.
-3. **Is there a real codebase?** A fresh scaffold or a nearly empty repo isn't a bootstrap case. Say so and stop: the project will fill up as work happens.
-4. **Tell the user what's coming** in two lines: you'll read the project (roughly how long, from its size), stop once to show them the map, then build it all.
+2. **Link the repo and start a session.** If the repo has no `.freeride.json`, offer to link it, so every later session here knows the project: run FreeRide's setup (`/freeride:setup` in Claude Code, the `freeride-setup` skill in Codex and Cursor). Then make sure your FreeRide session is in this project: call `start_session(project_id)` unless one already is. A session started before the project existed belongs elsewhere, so start a new one. Without it, the bootstrap's own work log lands in the wrong place or nowhere.
+3. **Is the copy current?** Someone may be working in this repo right now, and the local copy can be behind. Run `git fetch` (it only updates what the repo knows about its remote, never the files), then `git rev-list --left-right --count HEAD...@{u}` and `git status --short`.
+   - **Behind the remote:** read the remote's version (`@{u}`), not the folder: `git ls-tree -r @{u}`, `git show @{u}:<path>`, `git log @{u}`. Tell every reading lane which version to read. Say so in your opening lines ("your copy is 3 commits behind GitHub; I'm reading GitHub's version").
+   - **Uncommitted or unpushed changes:** someone's work in progress. Read it as in progress, never as shipped, and mention it.
+   - **No remote, or fetch fails:** read the folder and say the copy may not be the latest.
+4. **Is the project empty?** Run `search(kind: "features", brief: true)` (it lists the project's areas). If it already has areas, say so. This version fills empty projects. Offer to add only what's missing, reusing the existing areas, and never create a duplicate.
+5. **Is there a real codebase?** A fresh scaffold or a nearly empty repo isn't a bootstrap case. Say so and stop: the project will fill up as work happens.
+6. **Tell the user what's coming** in two lines: you'll read the project (roughly how long, from its size), stop once to show them the map, then build it all.
 
 ## 1. Read the project (read-only)
 
-Follow [reading.md](reading.md). It covers five lanes: product and structure, existing docs checked against the code, git history, tools and operations, and plans and loose ends. If your app can run parallel helpers (subagents), give each lane to one, using the briefs there word for word. If it can't, read lane by lane. Keep each tool read small: some apps cap tool output.
+Follow [reading.md](reading.md), reading the version step 0 chose. It covers five lanes: product and structure, existing docs checked against the code, git history, tools and operations, and plans and loose ends. If your app can run parallel helpers (subagents), give each lane to one, using the briefs there word for word. If it can't, read lane by lane. Keep each tool read small: some apps cap tool output.
 
 Skip what isn't knowledge: images, audio, 3D models, fonts, generated code, vendored libraries, lockfiles, build output, `node_modules`. Keep a list of what you skipped or only sampled, and why.
 
@@ -59,12 +64,13 @@ Follow [writing.md](writing.md) for every doc, decision and idea. Build in this 
    - An area that doesn't exist in the code yet gets `status: "planned"`.
    - An area being built for the first time: `update(feature_id, status: "building")` right away (`feature_id` is the area's id).
    - A shipped area becomes live (or review) in step 3, after its implementation doc exists: FreeRide only lets an area be marked live or review once it has one.
+   - **Parents get no stage.** Skip them in every status update, here and in step 3: a parent shows its parts' roll-up.
 2. **The overview**: `save_document(type: "overview", feature_id: null)`. Under 5,000 characters, opening with the focus block. See writing.md.
-3. **One implementation doc per area**, parents included: `save_document(feature_id, type: "implementation")`. Then `update(feature_id, status: "live")` for the shipped ones. FreeRide's overview check will then list those areas as "went live" since the overview was written. The overview says what the project is, not where it stands, so answer the check with `still_accurate` in `confirm_docs`.
+3. **One implementation doc per area**, parents included: `save_document(feature_id, type: "implementation")`. Then `update(feature_id, status: "live")` or `"review"` for the finished parts and standalone areas (never a parent). FreeRide's overview check will then list them as changed since the overview was written. The overview says what the project is, not where it stands, so when `complete_work` (step 7) returns that check, answer it in `confirm_docs` with `overview: {action: "still_accurate", note: "Written in this bootstrap; it describes the project, not stages."}`, alongside the `feature_id`, `action` and `details` confirm_docs always takes.
 4. **The other docs** from the doc plan: architecture, rules and numbers, how the team works, plans for work not built yet, and a project history if the repo has real milestones.
 5. **Decisions**: `capture(kind: "decision", feature_id, title, context, decision, alternatives)`, with the source named in the context.
-6. **Ideas**: `create(kind: "backlog_item", feature_id, title, description, priority)`, with the source named in the description.
-7. **Record the bootstrap**: if your session is in this project, one `complete_work` (no area, or the most central one) saying what was set up and from what. It's the first entry in the project's story.
+6. **Ideas**: `create(kind: "backlog_item", feature_id, title, description, priority)`, plus `status: "planned"` for the ones on the team's agenda (see writing.md), with the source named in the description.
+7. **Record the bootstrap**: one `complete_work` on the most central area, saying what was set up and from what. It's the first entry in the project's story. Answer the checks it returns with `confirm_docs`, as in step 3.
 
 If a call fails, note it and carry on. Never invent a workaround that bypasses FreeRide's tools.
 
