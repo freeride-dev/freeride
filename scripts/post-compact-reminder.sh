@@ -8,7 +8,7 @@
 INPUT=$(cat)
 TRANSCRIPT=$(echo "$INPUT" | jq -r '.transcript_path // empty' 2>/dev/null)
 
-BASE_MSG="Context was compacted. Call start_session to reload your session orientation and project context. The server will resume your existing session automatically. If it returns open_work_bracket, you were mid-work on a feature — call begin_work to reload feature context before continuing."
+BASE_MSG="Context was compacted. Call start_session to reload your session orientation and project context. The server will resume your existing session automatically. If it returns open_work_bracket, you were mid-work on an area — call begin_work to reload its context before continuing."
 
 SESSION_ID=""
 if [ -n "$TRANSCRIPT" ] && [ -f "$TRANSCRIPT" ]; then

@@ -1,11 +1,11 @@
 ---
 name: freeride
-description: FreeRide is the user's project workspace, shared by all their AI apps — each project's features, ideas, decisions, docs and work history. Use it whenever the user talks about one of their projects, plans, ideas or decisions, or asks to catch up or what to do next, even if they never say "FreeRide". Catch up on the project before discussing it. When the user asks you to remember, note, keep track of or save an idea or decision about one of their projects, save it to FreeRide with the save tool, not to your built-in memory, because FreeRide is where their project ideas and decisions live, and their other AI apps read them from there. Ask which project when it isn't clear.
+description: FreeRide is the user's project workspace, shared by all their AI apps — each project's areas, ideas, decisions, docs and work history. Use it whenever the user talks about one of their projects, plans, ideas or decisions, or asks to catch up or what to do next, even if they never say "FreeRide". Catch up on the project before discussing it. When the user asks you to remember, note, keep track of or save an idea or decision about one of their projects, save it to FreeRide with the save tool, not to your built-in memory, because FreeRide is where their project ideas and decisions live, and their other AI apps read them from there. Ask which project when it isn't clear.
 ---
 
 # FreeRide
 
-FreeRide holds what the user is building: for each project, its features, ideas, decisions (with the reasons), docs and the history of work done. The user reaches it from every AI app they use, so what you read and save here is what their next conversation, in any app, starts with.
+FreeRide holds what the user is building: for each project, its areas, ideas, decisions (with the reasons), docs and the history of work done. The user reaches it from every AI app they use, so what you read and save here is what their next conversation, in any app, starts with.
 
 ## FreeRide or your built-in memory?
 
@@ -24,14 +24,14 @@ In a chat app with its own memory, the first time you save to a project in a con
 4. **Look things up instead of guessing.** For "what did we decide about X" or "what's left on Y", use `search` with the project.
 5. **Starting something new.** If the user wants to track a new project, offer `create(kind: "project", name, description)`.
 
-Write saved text in plain language first; put technical detail under a `### Technical Details` heading. To point at another feature, write `[@Feature Name](feature:<feature id>)`.
+Write saved text in plain language first; put technical detail under a `### Technical Details` heading. To point at another area, write `[@Area Name](area:<area id>)`.
 
 ## When you're building in a repo linked to FreeRide
 
 The repo's CLAUDE.md or AGENTS.md (or the FreeRide plugin, if the repo has no FreeRide block) gives the full workflow:
 
 - `start_session` before your first response, every conversation.
-- `begin_work(feature_id)` before substantial work on a feature.
+- `begin_work(feature_id)` before substantial work on an area (`feature_id` is the area's id).
 - `complete_work(feature_id, summary)` after meaningful progress, with `files_changed` and `key_terms`, then `confirm_docs`.
 - `end_session` when the user is done.
 

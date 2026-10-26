@@ -40,7 +40,7 @@ case "$1" in
     esac
     if [ -f "$state/compacted" ]; then
       rm -f "$state/compacted"
-      msg="Context was compacted. Call start_session to reload your session orientation and project context. The server will resume your existing session automatically. If it returns open_work_bracket, you were mid-work on a feature — call begin_work to reload feature context before continuing."
+      msg="Context was compacted. Call start_session to reload your session orientation and project context. The server will resume your existing session automatically. If it returns open_work_bracket, you were mid-work on an area — call begin_work to reload its context before continuing."
       [ -s "$state/session_id" ] && msg="$msg To resume THIS conversation's exact session even if the server lost its in-memory state, call start_session with session_id $(cat "$state/session_id")."
       printf '%s\n' "$msg"
     fi
@@ -51,7 +51,7 @@ case "$1" in
     # unless begin_work already ran.
     [ -f "$state/stretch" ] && exit 0
     touch "$state/stretch"
-    echo "FreeRide is connected. What you track now is the context the next session starts with. For substantial feature work, begin_work(feature_id) loads the context you need before you go further. For smaller changes, complete_work(feature_id, summary) after you're done is enough. You decide which fits."
+    echo "FreeRide is connected. What you track now is the context the next session starts with. For substantial work on an area, begin_work(feature_id) loads the context you need before you go further. For smaller changes, complete_work(feature_id, summary) after you're done is enough. You decide which fits."
     ;;
 esac
 exit 0

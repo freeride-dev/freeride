@@ -52,7 +52,7 @@ if [ "$EDIT_COUNT" -ge 3 ] && [ $((EDIT_COUNT % 3)) -eq 0 ]; then
 {
   "hookSpecificOutput": {
     "hookEventName": "PostToolUse",
-    "additionalContext": "You made multiple code changes without calling complete_work. Consider: do these changes represent meaningful progress that future sessions should understand? New features, significant implementations, architectural changes, or important refactors warrant complete_work(feature_id, summary). Small UI tweaks, typo fixes, or minor adjustments do not. If this was substantial work, log it now."
+    "additionalContext": "You made multiple code changes without calling complete_work. Consider: do these changes represent meaningful progress that future sessions should understand? New work, significant implementations, architectural changes, or important refactors warrant complete_work(feature_id, summary). Small UI tweaks, typo fixes, or minor adjustments do not. If this was substantial work, log it now."
   }
 }
 HOOK_OUTPUT

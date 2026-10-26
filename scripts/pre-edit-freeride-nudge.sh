@@ -47,7 +47,7 @@ cat <<'HOOK_OUTPUT'
 {
   "hookSpecificOutput": {
     "hookEventName": "PreToolUse",
-    "additionalContext": "FreeRide is connected. What you track now is the context the next session starts with. For substantial feature work, begin_work(feature_id) loads the context you need before coding. For smaller changes, complete_work(feature_id, summary) after you're done is enough. You decide which fits."
+    "additionalContext": "FreeRide is connected. What you track now is the context the next session starts with. For substantial work on an area, begin_work(feature_id) loads the context you need before coding. For smaller changes, complete_work(feature_id, summary) after you're done is enough. You decide which fits."
   }
 }
 HOOK_OUTPUT
