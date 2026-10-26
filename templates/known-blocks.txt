@@ -1,0 +1,15 @@
+# Checksums of every rules block FreeRide has shipped (see scripts/rules-state.sh
+# for how they're taken). A repo block with one of these was never edited, so it
+# can be refreshed without asking. Add the new block's checksum whenever the
+# block changes; mcp-server/scripts/rules-refresh-test.mjs prints it and checks
+# this list matches mcp-server/src/known-blocks.ts.
+2919352883 2026-10-26 block with the freeride-rules stamp (plugin 0.1.18)
+2135902888 2026-10-26 area_id names, before the stamp (never shipped)
+1296154208 2026-10-26 plugin template, plugin 0.1.16 and 0.1.17
+595835625 2026-10-26 server link block (areas wording)
+3059926810 2026-07-01 CLI 1.7.x block and plugin template up to 0.1.15
+3390746346 2026-04-22 CLI block, April to June 2026
+3075101989 2026-04-06 CLI block, early April 2026
+60981070 2026-10-26 install-local block (area_id names)
+2925294835 2026-10-26 install-local block (areas wording)
+2804186730 2026-04-15 install-local block, April 2026

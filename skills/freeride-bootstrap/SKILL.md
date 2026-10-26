@@ -26,7 +26,7 @@ Two readers use what you build:
    - **Behind the remote:** read the remote's version (`@{u}`), not the folder: `git ls-tree -r @{u}`, `git show @{u}:<path>`, `git log @{u}`. Tell every reading lane which version to read. Say so in your opening lines ("your copy is 3 commits behind GitHub; I'm reading GitHub's version").
    - **Uncommitted or unpushed changes:** someone's work in progress. Read it as in progress, never as shipped, and mention it.
    - **No remote, or fetch fails:** read the folder and say the copy may not be the latest.
-4. **Is the project empty?** Run `search(kind: "features", brief: true)` (it lists the project's areas). If it already has areas, say so. This version fills empty projects. Offer to add only what's missing, reusing the existing areas, and never create a duplicate.
+4. **Is the project empty?** Run `search(kind: "areas", brief: true)` (it lists the project's areas). If it already has areas, say so. This version fills empty projects. Offer to add only what's missing, reusing the existing areas, and never create a duplicate.
 5. **Is there a real codebase?** A fresh scaffold or a nearly empty repo isn't a bootstrap case. Say so and stop: the project will fill up as work happens.
 6. **Tell the user what's coming** in two lines: you'll read the project (roughly how long, from its size), stop once to show them the map, then build it all.
 
@@ -60,16 +60,16 @@ Accept the user's corrections to names, grouping, stages or lists, and apply the
 Follow [writing.md](writing.md) for every doc, decision and idea. Build in this order, so the user can open the dashboard early and watch it fill in. Docs are the slow part: with parallel helpers, hand them out as writing.md describes, and save the decisions and ideas (steps 5 and 6) yourself while the helpers write.
 
 1. **Areas.**
-   - Create parents first, then their parts with `parent_id`, then standalone areas: `create(kind: "feature", name, description, icon, color, parent_id, last_work_at)` (the tool's kind for an area), with `last_work_at` from the history lane. Don't pass a priority: areas don't take one. Give each parent and standalone area its own colour, one that suits it where one does (violet for sound, amber for payments), with no repeats while colours last. Parts take their parent's.
+   - Create parents first, then their parts with `parent_id`, then standalone areas: `create(kind: "area", name, description, icon, color, parent_id, last_work_at)`, with `last_work_at` from the history lane. Don't pass a priority: areas don't take one. Give each parent and standalone area its own colour, one that suits it where one does (violet for sound, amber for payments), with no repeats while colours last. Parts take their parent's.
    - An area that doesn't exist in the code yet gets `status: "planned"`.
-   - An area being built for the first time: `update(feature_id, status: "building")` right away (`feature_id` is the area's id).
+   - An area being built for the first time: `update(area_id, status: "building")` right away.
    - A shipped area becomes live (or review) in step 3, after its implementation doc exists: FreeRide only lets an area be marked live or review once it has one.
    - **Parents get no stage.** Skip them in every status update, here and in step 3: a parent shows its parts' roll-up.
-2. **The overview**: `save_document(type: "overview", feature_id: null)`. Under 5,000 characters, opening with the focus block. See writing.md.
-3. **One implementation doc per area**, parents included: `save_document(feature_id, type: "implementation")`. Then `update(feature_id, status: "live")` or `"review"` for the finished parts and standalone areas (never a parent). FreeRide's overview check will then list them as changed since the overview was written. The overview says what the project is, not where it stands, so when `complete_work` (step 7) returns that check, answer it in `confirm_docs` with `overview: {action: "still_accurate", note: "Written in this bootstrap; it describes the project, not stages."}`, alongside the `feature_id`, `action` and `details` confirm_docs always takes.
+2. **The overview**: `save_document(type: "overview", area_id: null)`. Under 5,000 characters, opening with the focus block. See writing.md.
+3. **One implementation doc per area**, parents included: `save_document(area_id, type: "implementation")`. Then `update(area_id, status: "live")` or `"review"` for the finished parts and standalone areas (never a parent). FreeRide's overview check will then list them as changed since the overview was written. The overview says what the project is, not where it stands, so when `complete_work` (step 7) returns that check, answer it in `confirm_docs` with `overview: {action: "still_accurate", note: "Written in this bootstrap; it describes the project, not stages."}`, alongside the `area_id`, `action` and `details` confirm_docs always takes.
 4. **The other docs** from the doc plan: architecture, rules and numbers, how the team works, plans for work not built yet, and a project history if the repo has real milestones.
-5. **Decisions**: `capture(kind: "decision", feature_id, title, context, decision, alternatives)`, with the source named in the context.
-6. **Ideas**: `create(kind: "backlog_item", feature_id, title, description, priority)`, plus `status: "planned"` for the ones on the team's agenda (see writing.md), with the source named in the description.
+5. **Decisions**: `capture(kind: "decision", area_id, title, context, decision, alternatives)`, with the source named in the context.
+6. **Ideas**: `create(kind: "backlog_item", area_id, title, description, priority)`, plus `status: "planned"` for the ones on the team's agenda (see writing.md), with the source named in the description.
 7. **Record the bootstrap**: one `complete_work` on the most central area, saying what was set up and from what. It's the first entry in the project's story. Answer the checks it returns with `confirm_docs`, as in step 3.
 
 If a call fails, note it and carry on. Never invent a workaround that bypasses FreeRide's tools.

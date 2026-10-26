@@ -31,8 +31,8 @@ Write saved text in plain language first; put technical detail under a `### Tech
 The repo's CLAUDE.md or AGENTS.md (or the FreeRide plugin, if the repo has no FreeRide block) gives the full workflow:
 
 - `start_session` before your first response, every conversation.
-- `begin_work(feature_id)` before substantial work on an area (`feature_id` is the area's id).
-- `complete_work(feature_id, summary)` after meaningful progress, with `files_changed` and `key_terms`, then `confirm_docs`.
+- `begin_work(area_id)` before substantial work on an area.
+- `complete_work(area_id, summary)` after meaningful progress, with `files_changed` and `key_terms`, then `confirm_docs`.
 - `end_session` when the user is done.
 
 Linked repo (`.freeride.json`) but no FreeRide block in this app's instructions file (`CLAUDE.md` in Claude Code, `AGENTS.md` in Codex and Cursor)? Offer once to run the setup, which adds it.

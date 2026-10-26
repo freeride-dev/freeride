@@ -90,7 +90,7 @@ if [ "$EDIT_COUNT" -gt 0 ]; then
 {
   "hookSpecificOutput": {
     "hookEventName": "PostToolUse",
-    "additionalContext": "Build succeeded with untracked work. You verified your changes work — this is the natural moment to log them. Call complete_work(feature_id, summary) to record what you built."
+    "additionalContext": "Build succeeded with untracked work. You verified your changes work — this is the natural moment to log them. Call complete_work(area_id, summary) to record what you built."
   }
 }
 HOOK_OUTPUT

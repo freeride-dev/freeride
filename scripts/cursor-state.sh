@@ -51,7 +51,7 @@ case "$1" in
     # unless begin_work already ran.
     [ -f "$state/stretch" ] && exit 0
     touch "$state/stretch"
-    echo "FreeRide is connected. What you track now is the context the next session starts with. For substantial work on an area, begin_work(feature_id) loads the context you need before you go further. For smaller changes, complete_work(feature_id, summary) after you're done is enough. You decide which fits."
+    echo "FreeRide is connected. What you track now is the context the next session starts with. For substantial work on an area, begin_work(area_id) loads the context you need before you go further. For smaller changes, complete_work(area_id, summary) after you're done is enough. You decide which fits."
     ;;
 esac
 exit 0

@@ -50,6 +50,33 @@ fi
 project=$(sed -n 's/.*"project"[[:space:]]*:[[:space:]]*"\([0-9a-fA-F-]\{36\}\)".*/\1/p' "$dir/.freeride.json" | head -n 1)
 echo "This repo is linked to FreeRide project $project. Pass this id as project_id to start_session (and to other FreeRide tools if FreeRide asks which project)."
 
+# Cursor can't tell the server about the repo's rules block (it sends no
+# per-repo headers), so an out-of-date block is refreshed from here, with the
+# plugin's own block. Claude Code and Codex get the same instruction from the
+# server (mcp-server/src/rules-refresh.ts), which needs no plugin update.
+if [ -n "$CURSOR_PROJECT_DIR" ] && has_block; then
+  current=$(sed -n 's/.*<!-- freeride-rules: \([0-9-]*\) -->.*/\1/p' "$root/templates/claude-md-block.md" | head -n 1)
+  update=""
+  ask=""
+  for entry in $(sh "$root/scripts/rules-state.sh" "$dir"); do
+    file=${entry%%=*}
+    rest=${entry#*=}
+    [ "${rest%%,*}" = "$current" ] && continue
+    if grep -q "^${rest#*,} " "$root/templates/known-blocks.txt"; then
+      update="$update${update:+ and }$file"
+    else
+      ask="$ask${ask:+ and }$file"
+    fi
+  done
+  if [ -n "$update$ask" ]; then
+    echo "FreeRide's rules in this repo are out of date (current version $current)."
+    [ -n "$update" ] && echo "Offer the user, in one short line, to update them in $update, for example \"FreeRide's rules in ${update%% and *} are out of date. Want me to update them?\" If they agree, replace everything from <!-- freeride-start --> to <!-- freeride-end --> with the block below, keep the file's \"FreeRide project:\" line, if it has one, just above <!-- freeride-end -->, and change nothing outside the markers."
+    [ -n "$ask" ] && echo "The block in $ask was edited by hand. Mention that, in the same offer. If they agree, replace it the same way and keep their own added lines just below <!-- freeride-end -->."
+    echo "Offer once, alongside what the user asked; it doesn't need to come first. If they say no, leave it. The block:"
+    cat "$root/templates/claude-md-block.md"
+  fi
+fi
+
 if ! has_block; then
   sed -e '/freeride-start/d' -e '/freeride-end/d' "$root/templates/claude-md-block.md"
   echo "(These FreeRide rules come from the FreeRide plugin because this repo's CLAUDE.md or AGENTS.md doesn't have them. The FreeRide setup can add them: /freeride:setup in Claude Code; in Codex or Cursor, ask the agent to set up FreeRide for this repo.)"

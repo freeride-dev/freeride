@@ -6,7 +6,7 @@ Area links: `[@Area name](area:<id>)` when the text matters to that area's work 
 
 ## The overview (one per project)
 
-`save_document(type: "overview", feature_id: null, title: "<project name>")`, under 5,000 characters:
+`save_document(type: "overview", area_id: null, title: "<project name>")`, under 5,000 characters:
 
 ```
 > [!FOCUS]
@@ -24,7 +24,7 @@ The overview says what the project *is*, never where it stands: no dates, versio
 
 ## An implementation doc per area
 
-`save_document(feature_id, type: "implementation", title: "<Area> — How it works")`. Aim for 1,500–6,000 characters. A parent's doc is shorter and gives an overview of its area, linking its parts.
+`save_document(area_id, type: "implementation", title: "<Area> — How it works")`. Aim for 1,500–6,000 characters. A parent's doc is shorter and gives an overview of its area, linking its parts.
 
 ```
 <two or three sentences: what this area is, for the user or player>
@@ -71,7 +71,7 @@ Docs take most of the time. With parallel helpers, split the areas into three to
 
 > You're writing FreeRide docs for <project>, as one writer in FreeRide's existing-project bootstrap. Read <path to this writing.md> first and follow it exactly.
 > The repo is <path> and it is read-only: no edits, installs, runs, network, or git commands that change anything. Never print secrets. Ground every claim in code or commits you read. Where a repo doc and the code disagree, the code wins.
-> Save with `save_document(project_id: "<id>", feature_id, type, title)`. Don't create, update or delete anything else in FreeRide. If save_document warns, fix the doc and save again.
+> Save with `save_document(project_id: "<id>", area_id, type, title)`. Don't create, update or delete anything else in FreeRide. If save_document warns, fix the doc and save again.
 > What you need to know: <the facts from the reading lanes that matter for these docs: what the project is, its versions and process, which repo docs are stale and how>.
 > Area ids, for links: <every area's name and id>.
 > Your docs: <for each: area id, type, title, and what it covers, with the main files to read>.
@@ -84,7 +84,7 @@ Give every helper the whole list of area ids, so their docs can link across grou
 Only choices the project states with a reason: in a doc, a commit message, a code comment, an ADR. One decision per choice, on the area it shapes:
 
 ```
-capture(kind: "decision", project_id, feature_id,
+capture(kind: "decision", project_id, area_id,
   title:        "<what was chosen, as a short sentence>",
   decision:     "<the choice, plainly>",
   context:      "<why, in the source's words where possible>\n\nSource: <file:line or commit hash>",
@@ -98,7 +98,7 @@ Skip trivial choices (a lint setting, a variable name). Prefer the ones that wou
 Few and good: real open points, plans and loose ends, not every TODO. One per item, on its area:
 
 ```
-create(kind: "backlog_item", project_id, feature_id,
+create(kind: "backlog_item", project_id, area_id,
   title:       "<the item, as the team would say it>",
   description: "<what and why, plainly>\n\nSource: <file:line, doc section or commit>",
   priority:    critical | high | medium | low)
