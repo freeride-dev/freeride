@@ -31,7 +31,7 @@ For updates, turn on auto-update once: **/plugin → Marketplaces → freeride �
 4. In **Customize → Plugins → Yours**, click **FreeRide**, open its **Connectors** tab and click **Connect**. Keep Claude's settings (**Continue**, then **Add**) and sign in. You're connected when it says **Connected**; the plugin's switch alone isn't enough.
 5. In a new chat: *"Catch me up on <your project>."*
 
-For updates: **Add → Manage marketplaces**, open **freeride**'s menu, **Check for updates**, then **Update** on FreeRide. On the free plan, add `https://mcp.freeride.dev/mcp` as a custom connector instead (**Customize → Connectors → Add → Add custom connector**).
+FreeRide updates by itself while **Sync automatically** is on (**Add → Manage marketplaces**, **freeride**'s menu). Without it, use **Check for updates** in that menu, then **Update** on FreeRide. On the free plan, add `https://mcp.freeride.dev/mcp` as a custom connector instead (**Customize → Connectors → Add → Add custom connector**).
 
 **Codex** (the app, the CLI and the ChatGPT desktop app's Work mode)
 
@@ -39,7 +39,7 @@ For updates: **Add → Manage marketplaces**, open **freeride**'s menu, **Check 
 curl -fsSL https://freeride.dev/install/codex.sh | sh
 ```
 
-It finds Codex (the apps keep their own copy), installs the plugin and signs you in. Restart Codex afterwards. With the Codex CLI you can run the steps yourself:
+It finds Codex (the apps keep their own copy), installs the plugin and signs you in. Restart Codex afterwards. Codex brings FreeRide up to date each time it starts. With the Codex CLI you can run the steps yourself:
 
 ```
 codex plugin marketplace add freeride-dev/freeride
