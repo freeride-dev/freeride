@@ -19,6 +19,8 @@ FreeRide is in review for Claude's, OpenAI's and Cursor's plugin directories. Un
 /plugin install freeride@freeride
 ```
 
+Run them in Claude Code in your terminal. If it asks where to install, pick **Install for you**, then run `/reload-plugins`.
+
 For updates, turn on auto-update once: **/plugin → Marketplaces → freeride → Enable auto-update**.
 
 **Claude chat and Cowork** (paid Claude plans)
@@ -64,7 +66,7 @@ The first time FreeRide connects, a browser window opens. Sign in with Google or
 
 Once per repo, in any coding app: `/freeride:setup` in Claude Code, `$freeride-setup` in Codex, `/freeride-setup` in Cursor. Or ask your agent to set up FreeRide.
 
-Setup links the repo to a project and adds FreeRide's rules to `CLAUDE.md` and `AGENTS.md`. It shows every change first. Commit the result and your teammates are set up too.
+Setup links the repo to a project and adds FreeRide's rules to `CLAUDE.md` and `AGENTS.md`. It shows every change first. Commit the result and your teammates are set up too, or let each person set up their own copy ([how](https://freeride.dev/docs/teams-and-workspaces#setting-up-a-shared-repo)).
 
 Chat and Cowork need no setup. Just name the project.
 

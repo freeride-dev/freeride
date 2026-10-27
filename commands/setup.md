@@ -49,6 +49,7 @@ Use Write and Edit, not shell commands. Keep JSON valid. Then check: exactly one
 - What changed, in a short list.
 - Commit `.freeride.json`, the Claude file, `AGENTS.md` and `.claude/settings.json`. The backup folder can go once they're happy.
 - Restart Claude Code (or `/mcp` → reconnect `plugin:freeride:freeride`) so it picks up the link. Sign in if asked.
+- Keep FreeRide current: unless FreeRide came from Anthropic's plugin directory (which updates it), suggest turning on auto-update once: `/plugin` → Marketplaces → freeride → Enable auto-update. Claude Code leaves it off for plugins added from GitHub, and a plugin can't turn it on itself.
 - If `claude.ai freeride` was blocked: undo by removing it from `deniedMcpServers`.
 - Optional, for Claude chat or ChatGPT (they don't read CLAUDE.md): offer this line for claude.ai Settings → Instructions for Claude (or ChatGPT's Custom instructions), in a code block:
   `For my projects, use FreeRide: catch up on the project before we discuss it, and save new ideas and decisions to FreeRide, not to your built-in memory.`

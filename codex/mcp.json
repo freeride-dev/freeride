@@ -3,7 +3,7 @@
     "freeride": {
       "type": "http",
       "url": "https://mcp.freeride.dev/mcp",
-      "http_headers_helper": "p=$(sed -n 's/.*\"project\"[[:space:]]*:[[:space:]]*\"\\([0-9a-fA-F-]\\{36\\}\\)\".*/\\1/p' .freeride.json 2>/dev/null | head -n 1); r=''; for f in CLAUDE.md .claude/CLAUDE.md AGENTS.md; do [ -f \"$f\" ] || continue; b=$(tr -d '\\r' < \"$f\" | sed -n '/<!-- freeride-start -->/,/<!-- freeride-end -->/p'); [ -n \"$b\" ] || continue; s=$(printf '%s\\n' \"$b\" | sed -n 's/.*<!-- freeride-rules: \\([0-9-]*\\) -->.*/\\1/p' | head -n 1); c=$(printf '%s\\n' \"$b\" | grep -v '^FreeRide project:' | sed 's/[[:space:]]*$//' | grep -v '^$' | cksum | cut -d' ' -f1); r=\"$r${r:+ }$f=${s:-none},$c\"; done; h='\"X-FreeRide-Version\":\"plugin-0.1.18\"'; [ -n \"$p\" ] && h=\"$h,\\\"X-FreeRide-Project\\\":\\\"$p\\\"\"; [ -n \"$r\" ] && h=\"$h,\\\"X-FreeRide-Rules\\\":\\\"$r\\\"\"; printf '{%s}' \"$h\""
+      "http_headers_helper": "p=$(sed -n 's/.*\"project\"[[:space:]]*:[[:space:]]*\"\\([0-9a-fA-F-]\\{36\\}\\)\".*/\\1/p' .freeride.json 2>/dev/null | head -n 1); r=''; for f in CLAUDE.md .claude/CLAUDE.md AGENTS.md; do [ -f \"$f\" ] || continue; b=$(tr -d '\\r' < \"$f\" | sed -n '/<!-- freeride-start -->/,/<!-- freeride-end -->/p'); [ -n \"$b\" ] || continue; s=$(printf '%s\\n' \"$b\" | sed -n 's/.*<!-- freeride-rules: \\([0-9-]*\\) -->.*/\\1/p' | head -n 1); c=$(printf '%s\\n' \"$b\" | grep -v '^FreeRide project:' | sed 's/[[:space:]]*$//' | grep -v '^$' | cksum | cut -d' ' -f1); r=\"$r${r:+ }$f=${s:-none},$c\"; done; h='\"X-FreeRide-Version\":\"plugin-0.1.19\"'; [ -n \"$p\" ] && h=\"$h,\\\"X-FreeRide-Project\\\":\\\"$p\\\"\"; [ -n \"$r\" ] && h=\"$h,\\\"X-FreeRide-Rules\\\":\\\"$r\\\"\"; printf '{%s}' \"$h\""
     }
   }
 }

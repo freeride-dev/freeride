@@ -38,6 +38,7 @@ Afterwards: exactly one `<!-- freeride-start -->` in `AGENTS.md`, and exactly on
 ## 5. Next steps for the user
 
 - Restart the agent in this repo so FreeRide picks up the link. First time, sign in when asked (Codex: `codex mcp login freeride`; Cursor: Authenticate on the FreeRide plugin page).
+- Codex only: Codex doesn't update plugins by itself. To get a newer FreeRide later, run `curl -fsSL https://freeride.dev/install/codex.sh | sh` again (Cursor updates FreeRide itself every day).
 - Cursor only: use Agent mode (Ask mode blocks FreeRide's tools). If Cursor asks before every FreeRide call, they can allow FreeRide's tools to run without asking.
 - Commit `.freeride.json`, `AGENTS.md` and the Claude file. The repo now works the same in Claude Code.
 - Optional, for Claude chat or ChatGPT (they don't read AGENTS.md): offer this line for claude.ai Settings → Instructions for Claude (or ChatGPT's Custom instructions), in a code block:
