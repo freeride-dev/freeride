@@ -26,10 +26,12 @@ For updates, turn on auto-update once: **/plugin → Marketplaces → freeride �
 **Claude chat and Cowork** (paid Claude plans)
 
 1. On claude.ai or in the Claude app, open **Customize → Plugins → Add → Add marketplace → Add from a repository**.
-2. Paste `https://github.com/freeride-dev/freeride` and select **Sync**. No need to connect GitHub.
-3. Add **FreeRide**. Then click it to open it, go to its **Connectors** tab and select **Connect**.
+2. Paste `https://github.com/freeride-dev/freeride` and click **Sync**, the button that adds it. No need to connect GitHub; if a note says auto-sync needs the Claude GitHub App, close it.
+3. Search **FreeRide** in Plugins and add it (click **Continue** if Claude warns that it runs code).
+4. In **Customize → Plugins → Yours**, click **FreeRide**, open its **Connectors** tab and click **Connect**. Keep Claude's settings (**Continue**, then **Add**) and sign in. You're connected when it says **Connected**; the plugin's switch alone isn't enough.
+5. In a new chat: *"Catch me up on <your project>."*
 
-For updates: **Add → Manage marketplaces**, open **freeride**'s menu and turn on **Sync automatically**. On the free plan, add `https://mcp.freeride.dev/mcp` as a custom connector instead (**Customize → Connectors → Add → Add custom connector**).
+For updates: **Add → Manage marketplaces**, open **freeride**'s menu, **Check for updates**, then **Update** on FreeRide. On the free plan, add `https://mcp.freeride.dev/mcp` as a custom connector instead (**Customize → Connectors → Add → Add custom connector**).
 
 **Codex** (the app, the CLI and the ChatGPT desktop app's Work mode)
 
