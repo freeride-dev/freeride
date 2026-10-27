@@ -20,11 +20,25 @@ In a chat app with its own memory, the first time you save to a project in a con
 3. **Save as you go, and say so.** Use `save(project_id, ideas, decisions)`: one call for everything that came up, which shows the user a receipt with Undo in apps that support it.
    - A new idea, concern or "what if" → an entry in `ideas`.
    - A choice the user has made → an entry in `decisions`. If it's clear and agreed, save it. If it's still open, ask first.
-   - After saving, tell the user in one short line what you saved and where, e.g. "Saved to Mealwise: 2 ideas, 1 decision."
+   - After saving, tell the user in one short line what you saved and where, e.g. "Saved to Mealwise: 2 ideas, 1 decision." Then follow up on what the save found (see below).
 4. **Look things up instead of guessing.** For "what did we decide about X" or "what's left on Y", use `search` with the project.
 5. **Starting something new.** If the user wants to track a new project, offer `create(kind: "project", name, description)`.
 
-Write saved text in plain language first; put technical detail under a `### Technical Details` heading. To point at another area, write `[@Area Name](area:<area id>)`.
+## Ideas, decisions and docs
+
+Each has one job:
+
+- **Idea:** something still open: a what-if, a concern, a thing to do later.
+- **Decision:** one settled choice, with why and what was turned down. If a message settles three things, save three decisions. Values that will be tuned (numbers, costs, timings) go in the area's doc: the decision says "Players earn coins each match", the doc says how many.
+- **Doc:** the whole picture of an area, kept true as decisions land.
+
+When you save decisions, pass `key_terms` (names they introduce or change) and `removed_terms` (names they make obsolete). The reply's `docs_to_check` and `earlier_decisions_to_check` show what may now say something else, in any area:
+
+- **A doc says otherwise:** offer in one line to update it. Read it with `search`, then change only what the decision changed (`patch_document`). If the doc describes what's built and the decision isn't built yet, don't rewrite it: add a short note at the top that links the decision.
+- **An earlier decision no longer holds:** ask once, then mark it replaced (`replaces` on the new decision, or `update(decision_id, status: "replaced", replaced_by)`). It stays as history.
+- **In docs, link the records you mention** so they show their current state: `[Title](decision:<id>)`, `[Title](idea:<id>)`, `[@Area Name](area:<area id>)`.
+
+Name people by name ("Maria"), not "the owner" or "the user": the whole team reads these. Write in plain language first; put technical detail under a `### Technical Details` heading.
 
 ## When you're building in a repo linked to FreeRide
 
