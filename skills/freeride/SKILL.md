@@ -1,6 +1,6 @@
 ---
 name: freeride
-description: FreeRide is the user's project workspace, shared by all their AI apps — each project's areas, ideas, decisions, docs and work history. Use it whenever the user talks about one of their projects, plans, ideas or decisions, or asks to catch up or what to do next, even if they never say "FreeRide". Catch up on the project before discussing it. When the user asks you to remember, note, keep track of or save an idea or decision about one of their projects, save it to FreeRide with the save tool, not to your built-in memory, because FreeRide is where their project ideas and decisions live, and their other AI apps read them from there. Ask which project when it isn't clear.
+description: FreeRide is the user's project workspace, shared by all their AI apps — each project's areas, ideas, decisions, docs and work history. Use it whenever the user talks about one of their projects, plans, ideas or decisions, or asks to catch up or what to do next, even if they never say "FreeRide". Catch up on the project before discussing it. When the user asks you to remember, note, keep track of or save an idea or decision about one of their projects, save it to FreeRide with the save tool, not to your built-in memory, because FreeRide is where their project ideas and decisions live, and their other AI apps read them from there. Ask which project when it isn't clear. In a code repo whose CLAUDE.md or AGENTS.md has FreeRide's rules, follow those rules instead; this skill is for everywhere else.
 ---
 
 # FreeRide
@@ -40,20 +40,15 @@ When you save decisions, pass `key_terms` (names they introduce or change) and `
 
 Name people by name ("Maria"), not "the owner" or "the user": the whole team reads these. Write in plain language first; put technical detail under a `### Technical Details` heading.
 
-## When you're building in a repo linked to FreeRide
+## In a code repo
 
-The repo's CLAUDE.md or AGENTS.md (or the FreeRide plugin, if the repo has no FreeRide block) gives the full workflow:
+If this app's instructions file (`CLAUDE.md` in Claude Code, `AGENTS.md` in Codex and Cursor) has FreeRide's rules, follow them: they cover the work there, and the rest of this skill doesn't apply.
 
-- `start_session` before your first response, every conversation.
-- `begin_work(area_id)` before substantial work on an area.
-- `complete_work(area_id, summary)` after meaningful progress, with `files_changed` and `key_terms`, then `confirm_docs`.
-- `end_session` when the user is done.
+If it doesn't:
 
-Linked repo (`.freeride.json`) but no FreeRide block in this app's instructions file (`CLAUDE.md` in Claude Code, `AGENTS.md` in Codex and Cursor)? Offer once to run the setup, which adds it.
-
-Working in a repo with no `.freeride.json` and the user's project turns out to be in FreeRide (they named it, or picked it from `list_projects`)? Offer once to link this repo, so every agent knows the project from then on. If they agree, run the setup.
-
-To link a repo to a FreeRide project, or switch an older FreeRide setup to the plugin: in Claude Code the user runs `/freeride:setup`; in Codex and Cursor, use the `freeride-setup` skill.
+- **Linked repo** (`.freeride.json`) **but no FreeRide rules:** offer once to run the setup, which adds them.
+- **Not linked, and the user's project is in FreeRide** (they named it, or picked it from `list_projects`): offer once to link this repo, so every agent knows the project from then on.
+- **The setup:** `/freeride:setup` in Claude Code, `$freeride-setup` in Codex, `/freeride-setup` in Cursor.
 
 ## When it isn't about a project
 
