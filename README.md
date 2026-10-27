@@ -60,7 +60,7 @@ Restart Cursor. The plugin updates itself.
 The first time FreeRide connects, a browser window opens. Sign in with Google or email and approve. If it doesn't open:
 
 - **Claude Code:** run `/mcp`
-- **Claude chat and Cowork:** use the plugin's **Connectors** tab on claude.ai
+- **Claude chat and Cowork:** in **Customize → Plugins → Yours**, open **FreeRide**'s **Connectors** tab and click **Connect**
 - **Codex:** run the install command again, or `codex mcp login freeride`
 - **Cursor:** select **Authenticate** on FreeRide in **Customize**
 
