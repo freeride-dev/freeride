@@ -18,6 +18,10 @@ description: Codex and Cursor (not Claude Code, which has /freeride:setup). Link
 
 `.freeride.json`'s project, else `list_projects` and ask (offer `create(kind: "project", name)`). Never guess.
 
+If `.freeride.json` names a project, confirm it with `catch_up`. If FreeRide says this account can't open it, stop: tell the user what it said, change nothing, and don't offer to link the repo to another project. The link is committed for the whole team. If the user asks to move the repo anyway, warn them first that committing the change moves everyone who pulls it.
+
+Setup isn't a work session: don't call `end_session` for it. Leave the session open, so the user's next message carries on in it.
+
 ## 3. Plan, then ask once
 
 - **Link:** `.freeride.json` = `{ "project": "<id>" }`. Committed, it links teammates too.
