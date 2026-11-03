@@ -6,10 +6,9 @@
         "hooks": [
           { "type": "command", "command": "\"${CLAUDE_PLUGIN_ROOT}\"/scripts/session-start.sh", "timeout": 5 }
         ]
-      }
-    ],
-    "PostCompact": [
+      },
       {
+        "matcher": "compact",
         "hooks": [
           { "type": "command", "command": "\"${CLAUDE_PLUGIN_ROOT}\"/scripts/run-hook.sh post-compact-reminder.sh", "timeout": 5 }
         ]

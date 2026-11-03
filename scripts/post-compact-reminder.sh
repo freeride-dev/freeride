@@ -1,37 +1,44 @@
-#!/bin/bash
-# PostCompact hook: after context compaction, remind the agent to re-call
-# start_session — and, when the FreeRide session_id can be recovered from the
-# (uncompacted) transcript on disk, tell the agent to pass it so the EXACT
-# session resumes even if the server lost its in-memory state (cold start,
-# restart, or long idle). Degrades to the plain reminder if the id can't be found.
+#!/bin/sh
+# After the context is compacted (SessionStart with source "compact"): remind
+# the agent to call start_session again, with the id of the FreeRide session
+# this conversation is on, so it continues that exact session even when the
+# server lost its state meanwhile (a restart, a reconnect, a long idle).
+#
+# It runs on SessionStart because Claude Code adds what a SessionStart hook
+# prints to the agent's context. A PostCompact hook's output never reaches the
+# agent (Claude Code drops its systemMessage and logs its stdout), so this
+# reminder, a PostCompact hook until plugin 0.1.24, was never seen.
+#
+# The session is the latest one the transcript shows this conversation on:
+# start_session's answer (its top-level session_id), or complete_work's note
+# when it started a session itself ("FreeRide started a new session (<id>)",
+# mcp-server/src/state.ts). The transcript on disk keeps everything compaction
+# drops. Both are matched as the server wrote them, escaped once inside the
+# transcript's JSON, so the same text printed by a command (escaped twice)
+# doesn't count. With no id found, it's the plain reminder.
 
-INPUT=$(cat)
-TRANSCRIPT=$(echo "$INPUT" | jq -r '.transcript_path // empty' 2>/dev/null)
+input=$(cat)
+transcript=$(printf '%s' "$input" | sed -n 's/.*"transcript_path"[[:space:]]*:[[:space:]]*"\([^"]*\)".*/\1/p' | head -n 1)
 
-BASE_MSG="Context was compacted. Call start_session to reload your session orientation and project context. The server will resume your existing session automatically. If it returns open_work_bracket, you were mid-work on an area — call begin_work to reload its context before continuing."
-
-SESSION_ID=""
-if [ -n "$TRANSCRIPT" ] && [ -f "$TRANSCRIPT" ]; then
-  # Recover the session_id from the most recent start_session response and take its
-  # first (top-level) session_id — the session this conversation is bound to. We
-  # anchor on the orientation payload's "workflow_rules" JSON KEY (matched as
-  # workflow_rules.{1,2}: to bridge the escaped ": without needing backslashes),
-  # NOT the bare word, so prose mentions of "workflow_rules" don't match. The
-  # transcript file isn't truncated by compaction, so the id survives even when
-  # it's gone from the agent's context. The .{0,8} skips the key/value separator.
-  SESSION_ID=$(grep -E 'workflow_rules.{1,2}:' "$TRANSCRIPT" 2>/dev/null | tail -1 \
-    | grep -oiE 'session_id.{0,8}[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}' \
-    | head -1 \
-    | grep -oiE '[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}')
+id=""
+if [ -n "$transcript" ] && [ -f "$transcript" ] && command -v perl >/dev/null 2>&1; then
+  # Perl, not grep: transcripts run to 200 MB with lines of megabytes, and
+  # macOS grep takes seconds on them (the hook has 5). Perl reads one about
+  # 0.2 s. A start_session answer opens with its session_id, before its
+  # workflow_rules; the last line with either kind gives the id.
+  id=$(perl -ne '
+    my $n = index($_, q{FreeRide started a new session (});
+    my $w = index($_, q{\"workflow_rules\":});
+    next if $n < 0 && $w < 0;
+    if ($n >= 0 && /session_note\\":\\"FreeRide started a new session \(([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})\)/) { $id = $1; next; }
+    if ($w >= 0 && /\{\\"session_id\\":\\"([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})\\",/ && $-[0] < $w) { $id = $1; }
+    END { print $id if defined $id }
+  ' "$transcript" 2>/dev/null)
 fi
 
-if [ -n "$SESSION_ID" ]; then
-  EXTRA=" To resume THIS conversation's exact session even if the server lost its in-memory state, call start_session with session_id $SESSION_ID."
+if [ -n "$id" ]; then
+  echo "Context was compacted. This conversation is on FreeRide session $id: call start_session with session_id $id to reload your orientation and continue it (this also works if the FreeRide server restarted or reconnected meanwhile). If it returns open_work_bracket, you were mid-work on an area: call begin_work to reload its context before continuing."
 else
-  EXTRA=""
+  echo "Context was compacted. Call start_session to reload your orientation and project context. If it returns open_work_bracket, you were mid-work on an area: call begin_work to reload its context before continuing."
 fi
-
-# Emit without depending on jq for output so the reminder always fires. BASE_MSG
-# and EXTRA contain no JSON-special characters; SESSION_ID is a validated UUID.
-printf '{"systemMessage": "%s%s"}\n' "$BASE_MSG" "$EXTRA"
 exit 0
