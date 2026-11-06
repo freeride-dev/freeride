@@ -15,10 +15,11 @@ In a chat app with its own memory, the first time you save to a project in a con
 
 ## When the conversation is about a project
 
-1. **Catch up first.** Call `catch_up` with the project before you discuss it. It returns what the project is, recent work, planned items, recent decisions and open ideas. Don't make the user re-explain what FreeRide already knows.
+1. **Catch up first.** Call `catch_up` with the project before you discuss it. It returns what the project is, recent work, planned items, recent decisions and open ideas. Don't make the user re-explain what FreeRide already knows. A planned item with a date says `when`; if one is marked `check`, its date has passed: ask once whether it was done, is moving, or is still planned, and record the answer with `update` (its `planned_note` says how). Never assume.
 2. **Know which project.** Pass the project's name or id as `project_id`. If the user hasn't said and it isn't obvious, call `list_projects` and ask. Never guess, and never save to a project you aren't sure about. If FreeRide answers with `needs_project`, ask the user which project, then call again.
 3. **Save as you go, and say so.** Use `save(project_id, ideas, decisions)`: one call for everything that came up, which shows the user a receipt with Undo in apps that support it.
    - A new idea, concern or "what if" → an entry in `ideas`.
+   - Work the user commits to ("plan this", "it's next") → an entry in `ideas` with `planned: true`, plus `due` when they say when it matters ("by Tuesday", "Oct 29 at 12:00"). Work out the date from today and ask when it's unclear; never invent one. Several related requests usually become one or a few planned items, not one per line.
    - A choice the user has made → an entry in `decisions`. If it's clear and agreed, save it. If it's still open, ask first.
    - Where the project is heading → its Focus, `save(project_id, focus)`: one to three lines on the goal now, what matters most and the milestone that ends this phase. Direction, not status. When `catch_up` returns `focus_check`, rewrite it from what happened since and what the user said, or answer `focus: "unchanged"`.
    - After saving, tell the user in one short line what you saved and where, e.g. "Saved to Mealwise: 2 ideas, 1 decision." Then follow up on what the save found (see below).

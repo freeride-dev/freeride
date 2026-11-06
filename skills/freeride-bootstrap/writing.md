@@ -104,6 +104,6 @@ create(kind: "backlog_item", project_id, area_id,
   priority:    critical | high | medium | low)
 ```
 
-- **Planned work.** Set `status: "planned"` only when the source puts it on the team's agenda (the next version's spec or list). Everything else stays open.
+- **Planned work.** Set `status: "planned"` only when the source puts it on the team's agenda (the next version's spec or list). Everything else stays open. Add `due` only when the source gives that planned work a date that's still ahead ("ships Nov 15"); never infer one from a version number or a sprint.
 - **Already-built capabilities never become ideas.**
 - **Item codes.** When the team numbers its items ("G-28"), keep the number in the title.
