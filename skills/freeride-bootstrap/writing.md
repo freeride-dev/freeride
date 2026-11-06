@@ -1,6 +1,6 @@
 # Writing what the bootstrap creates
 
-Write for a reader who has never seen the project: plain, short sentences in the team's words. Every doc, guides and plans included, has two layers: plain language first, then technical detail under exactly `### Technical Details`. FreeRide warns when that heading is missing; fix the doc and save it again. Name files as code (`src/sim/run.ts`). Ground every claim in what you read. Where a repo doc and the code disagree, the code wins. Note the drift if it matters, but don't repeat the stale claim.
+Write for a reader who has never seen the project: plain, short sentences in the team's words. Name people by name, never "the owner" or "the user". Every doc, guides and plans included, has two layers: plain language first, then technical detail under exactly `### Technical Details`. FreeRide warns when that heading is missing; fix the doc and save it again. Name files as code (`src/sim/run.ts`). Ground every claim in what you read. Where a repo doc and the code disagree, the code wins. Note the drift if it matters, but don't repeat the stale claim.
 
 Area links: `[@Area name](area:<id>)` when the text matters to that area's work (a cross-area rule, a dependency): with the `@`, the doc also shows up in that area's `begin_work`. The overview's list of parts uses the plain form, `[Area name](area:<id>)`, so it doesn't show up in every area. The old `feature:<id>` still works but isn't for new docs. Docs can use GitHub callouts (`> [!NOTE]`), ```mermaid diagrams, and tables.
 
@@ -10,7 +10,7 @@ Area links: `[@Area name](area:<id>)` when the text matters to that area's work 
 
 ```
 > [!FOCUS]
-> <one or two lines: what the project is working toward now>
+> <one to three lines: where the project is heading now, what matters most on the way, and the milestone that ends this phase>
 
 ## What it is
 ## Who it's for
@@ -20,7 +20,7 @@ Area links: `[@Area name](area:<id>)` when the text matters to that area's work 
 ## Where to find more  (the key docs by name, the repo, how to run it)
 ```
 
-The overview says what the project *is*, never where it stands: no dates, versions or progress notes. FreeRide shows those live.
+The overview says what the project *is*, never where it stands: no dates, versions or progress notes. FreeRide shows those live. The Focus is direction, not status: if it would need rewriting on every release, it's saying what shipped instead of where the project is going.
 
 ## An implementation doc per area
 

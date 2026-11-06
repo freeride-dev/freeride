@@ -1,11 +1,17 @@
 ---
 name: freeride-setup
-description: Codex and Cursor (not Claude Code, which has /freeride:setup). Link this repo to a FreeRide project, add FreeRide's rules to AGENTS.md and CLAUDE.md, and switch an older hand-made FreeRide setup to the plugin. Use when the user asks to set up, link or connect FreeRide for this repo, or to check how FreeRide is set up here.
+description: Codex and Cursor (not Claude Code, which has /freeride:setup). Link this repo to a FreeRide project, add FreeRide's rules to AGENTS.md and CLAUDE.md, and switch an older hand-made FreeRide setup to the plugin. Use when the user asks to set up, link or connect FreeRide for this repo, to check how FreeRide is set up here, or when FreeRide's tools aren't available.
 ---
 
 # Set up FreeRide for this repo
 
 **Show every change first and ask once. Never delete anything or touch what isn't FreeRide's.** If the user only asked how FreeRide is set up, do step 1, report briefly, and stop.
+
+**FreeRide's tools missing** (no `start_session`, `catch_up` and the rest in this conversation)? This skill comes with the plugin, so the plugin is installed: the sign-in has run out, and the app didn't renew it. Don't investigate. Ask the user to sign in again, then try again (if the tools still don't show, they start a new conversation):
+- Codex: `codex mcp login freeride` in a terminal; it opens the browser. You may run it for them with their approval. If `codex` isn't found, `curl -fsSL https://freeride.dev/install/codex.sh | sh` finds it and signs in too.
+- Cursor: **Authenticate** on the FreeRide plugin page.
+
+Go on with setup only if they asked for it.
 
 ## 1. Look (read only)
 
@@ -42,7 +48,7 @@ Afterwards: exactly one `<!-- freeride-start -->` in `AGENTS.md`, and exactly on
 ## 5. Next steps for the user
 
 - Restart the agent in this repo so FreeRide picks up the link. First time, sign in when asked (Codex: `codex mcp login freeride`; Cursor: Authenticate on the FreeRide plugin page).
-- Codex only: Codex doesn't update plugins by itself. To get a newer FreeRide later, run `curl -fsSL https://freeride.dev/install/codex.sh | sh` again (Cursor updates FreeRide itself every day).
+- Codex only: Codex brings FreeRide up to date when it starts; if it still has an old version, run `curl -fsSL https://freeride.dev/install/codex.sh | sh` again (Cursor updates FreeRide itself every day). After each update Codex asks to review FreeRide's hooks: choose Trust all and continue. Until then it shows "Hook failed" lines, and FreeRide still works.
 - Cursor only: use Agent mode (Ask mode blocks FreeRide's tools). If Cursor asks before every FreeRide call, they can allow FreeRide's tools to run without asking.
 - Commit `.freeride.json`, `AGENTS.md` and the Claude file. The repo now works the same in Claude Code.
 - Optional, for Claude chat or ChatGPT (they don't read AGENTS.md): offer this line for claude.ai Settings → Instructions for Claude (or ChatGPT's Custom instructions), in a code block:

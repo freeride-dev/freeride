@@ -20,6 +20,7 @@ In a chat app with its own memory, the first time you save to a project in a con
 3. **Save as you go, and say so.** Use `save(project_id, ideas, decisions)`: one call for everything that came up, which shows the user a receipt with Undo in apps that support it.
    - A new idea, concern or "what if" → an entry in `ideas`.
    - A choice the user has made → an entry in `decisions`. If it's clear and agreed, save it. If it's still open, ask first.
+   - Where the project is heading → its Focus, `save(project_id, focus)`: one to three lines on the goal now, what matters most and the milestone that ends this phase. Direction, not status. When `catch_up` returns `focus_check`, rewrite it from what happened since and what the user said, or answer `focus: "unchanged"`.
    - After saving, tell the user in one short line what you saved and where, e.g. "Saved to Mealwise: 2 ideas, 1 decision." Then follow up on what the save found (see below).
 4. **Look things up instead of guessing.** For "what did we decide about X" or "what's left on Y", use `search` with the project.
 5. **Starting something new.** If the user wants to track a new project, offer `create(kind: "project", name, description)`.

@@ -46,7 +46,7 @@ Send one message, in this order. Nothing is written to FreeRide before the user 
 
 1. **What the project really is**, in two or three plain lines, plus the stack. If the user's picture of it was off (they called it a mobile app and it's a website), correct that first.
 2. **The area map** as a tree: parents with their parts, then standalone areas. For each: a one-line scope, its stage with the evidence (for example "live: in the store since v0.9, 30 commits in the last two weeks", or "building: v0.x, only playtested so far"), and the date of its last work.
-3. **A suggested focus**: one or two lines on what the project is working toward now, from recent activity and plans.
+3. **A suggested focus**: one to three lines on where the project is heading now, what matters most on the way and the milestone that ends this phase, from recent activity and plans. Direction, not status.
 4. **The doc plan**: which repo docs come into FreeRide (checked, nearly as they are), which feed new docs, which are stale, which stay in the repo only (READMEs and other files the repo itself needs), and the new docs you'll write.
 5. **Every decision** you'll record, one line each, with its source (file and line, or commit).
 6. **Every idea** you'll create, one line each, with its area, priority and source.
