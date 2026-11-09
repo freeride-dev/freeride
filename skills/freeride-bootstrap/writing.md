@@ -104,6 +104,6 @@ create(kind: "backlog_item", project_id, area_id,
   priority:    critical | high | medium | low)
 ```
 
-- **Planned work.** Set `status: "planned"` only when the source puts it on the team's agenda (the next version's spec or list). Everything else stays open. Add `due` only when the source gives that planned work a date that's still ahead ("ships Nov 15"); never infer one from a version number or a sprint.
+- **Planned work.** Set `status: "planned"` only when the source puts it on the team's agenda (the next version's spec or list). Everything else stays open. A roadmap with several phases: plan only the next decided phase; later phases stay in the plan doc. Add `due` only when the source gives that planned work a date that's still ahead ("ships Nov 15"); never infer one from a version number or a sprint. One piece of planned work is one item, its steps a checklist in its description; when the source splits it into pieces with their own dates or people, make it a plan: one planned item with `steps` (create with steps), never a planned item per piece.
 - **Already-built capabilities never become ideas.**
 - **Item codes.** When the team numbers its items ("G-28"), keep the number in the title.
