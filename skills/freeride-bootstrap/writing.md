@@ -1,6 +1,6 @@
 # Writing what the bootstrap creates
 
-Write for a reader who has never seen the project: plain, short sentences in the team's words. Name people by name, never "the owner" or "the user". Every doc, guides and plans included, has two layers: plain language first, then technical detail under exactly `### Technical Details`. FreeRide warns when that heading is missing; fix the doc and save it again. Name files as code (`src/sim/run.ts`). Ground every claim in what you read. Where a repo doc and the code disagree, the code wins. Note the drift if it matters, but don't repeat the stale claim.
+Write for a reader who has never seen the project: plain, short sentences in the team's words. Name people by name, never "the owner" or "the user". An implementation doc has two layers: plain language first, then technical detail under exactly one `### Technical Details`, at the end. Other docs take that heading only when they have code-level detail to set apart. Name files as code (`src/sim/run.ts`). Ground every claim in what you read. Where a repo doc and the code disagree, the code wins. Note the drift if it matters, but don't repeat the stale claim.
 
 Area links: `[@Area name](area:<id>)` when the text matters to that area's work (a cross-area rule, a dependency): with the `@`, the doc also shows up in that area's `begin_work`. The overview's list of parts uses the plain form, `[Area name](area:<id>)`, so it doesn't show up in every area. The old `feature:<id>` still works but isn't for new docs. Docs can use GitHub callouts (`> [!NOTE]`), ```mermaid diagrams, and tables.
 
@@ -29,22 +29,21 @@ The overview says what the project *is*, never where it stands: no dates, versio
 ```
 <two or three sentences: what this area is, for the user or player>
 
-## What it does
-   The behaviour, in user terms. Small capabilities inside this area get a
-   short section each here, rather than an area of their own.
 ## How it works
-   The mechanism, plainly. A table for rules and numbers.
-## Where it came from
-   When it started, how it grew (versions or milestones), recent activity, and
-   who works on it. From git; dates are fine here.
-## Open points
-   Known gaps, drift between docs and code, and loose ends, each with its source.
-   Point to the ideas created for them.
+   The main flow, start to end, in plain words.
+## <Part>   (one section per part of the thing, named for the part)
+   What that part does, in user terms, and how. Small capabilities inside this
+   area get a short section each here, rather than an area of their own.
+## Rules and limits
+   What it never does, and the numbers that matter. A table for rules and numbers.
 
 ### Technical Details
-   Key files (a table: file, what it holds), the main types and functions,
-   constants that matter, how it connects to other areas, and tests.
+   Under the same part names: key files (a table: file, what it holds), the
+   main types and functions, constants that matter, how it connects to other
+   areas, and tests.
 ```
+
+The doc says how the area works now, in the present tense. It has no dates, versions, "new", "now" or "not yet", and no account of what shipped when: the work log and the area's Story keep the history, the where-it-stands note keeps status, and open points are ideas (create them, don't list them in the doc). Later work edits the section about the part it changed, so name sections for parts, never for when something shipped.
 
 ## Other docs (from the doc plan)
 
@@ -54,11 +53,16 @@ The overview says what the project *is*, never where it stands: no dates, versio
 | Rules and numbers (game design, pricing, limits) | the area that owns them | `guide` |
 | How the team works (feedback → spec → build → check → release) | project level | `guide` |
 | Plans for work not built yet (the next version's spec) | the area it's for, or project level if it spans several | `backlog` |
-| Project history (only with real milestones) | project level | `guide` |
+| How a flow goes for the person using it (screens, steps, states, the words on them) | the area that owns the flow | `ux_flow` |
+| Where the product is going and why (principles, positioning, strategy) | project level | `vision` |
+| Project history (only with real milestones) | project level | `guide`, dated |
 | Pipelines, release steps, runbooks | the area that owns them, as sections or a `guide` | `guide` |
 
+**Two kinds of doc.** A doc is kept current (it says how things are now, and later work edits it in place) or it's dated: a plan, a design before it's built, research, a review, a list someone gave. A dated doc says what was planned or found as of its date. It follows what's agreed: update it when that changes, and mark it replaced or retired once it's built or dropped. A plan (`backlog`) is saved dated, and so is a doc with a date in its title, except an implementation doc. For any other doc of a moment, pass `dated: true` (or its date, `dated: "2026-07-27"`).
+
 **Repo docs coming in:**
-- **A current doc** comes in nearly as it is, as the right type, on the right area, with a last line: `Source: <path> in the repo, checked against the code on <date>.`
+- **A current doc** comes in nearly as it is, as the right type, on the right area, with a last line: `Source: <path> in the repo.` If it's a plan, a design or research of its time, save it dated (`dated: "<date>"`).
+- **A plan or design that's already built** isn't brought in as a plan: open plans come up after every piece of work, so a built one is noise. What it built goes into the area docs, and the plan stays in the repo. Only if the team wants it kept in FreeRide, save it dated, then mark it history: `update(document_id, status: "replaced", replaced_by)` when one doc now says how that thing works, else `status: "retired"` with a note naming what built it ("Built in v0.16").
 - **A partly stale doc** feeds a rewritten doc instead.
 - **A huge layered spec** (versions stacked on versions) is summarised into the current truth, not copied.
 - **One-off records** (a feedback round) stay in the repo. Their open points become ideas.
