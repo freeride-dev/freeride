@@ -8,11 +8,16 @@
 
 dir="${CLAUDE_PROJECT_DIR:-$PWD}"
 [ -f "$dir/.freeride.json" ] || exit 0
+# Codex sets PLUGIN_ROOT for plugin hooks; Claude Code sets CLAUDE_PROJECT_DIR,
+# Cursor CURSOR_PROJECT_DIR.
+codex=""
+[ -z "$CLAUDE_PROJECT_DIR" ] && [ -n "$PLUGIN_ROOT" ] && [ -z "$CURSOR_PROJECT_DIR" ] && codex=1
 # Old setup still active = its hooks are still registered in the repo's
 # settings (the script files alone may be left behind after switching).
-grep -qs "pre-edit-freeride-nudge.sh" "$dir/.claude/settings.json" "$dir/.claude/settings.local.json" && exit 0
+# Codex never runs Claude Code's settings, so it doesn't look there: an old
+# Claude Code setup must not leave Codex with no nudges at all.
+[ -z "$codex" ] && grep -qs "pre-edit-freeride-nudge.sh" "$dir/.claude/settings.json" "$dir/.claude/settings.local.json" && exit 0
 # Same in Codex: a hand-made setup registers the nudges in .codex/hooks.json.
-# (Codex sets PLUGIN_ROOT for plugin hooks; Claude Code sets CLAUDE_PROJECT_DIR.)
 [ -z "$CLAUDE_PROJECT_DIR" ] && [ -n "$PLUGIN_ROOT" ] && grep -qs "pre-edit-freeride-nudge.sh" "$dir/.codex/hooks.json" && exit 0
 # And in Cursor (CURSOR_PROJECT_DIR): a hand-made .cursor/hooks.json.
 [ -n "$CURSOR_PROJECT_DIR" ] && grep -qs "pre-edit-freeride-nudge.sh" "$dir/.cursor/hooks.json" && exit 0

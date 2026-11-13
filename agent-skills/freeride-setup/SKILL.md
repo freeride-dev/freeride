@@ -16,7 +16,7 @@ Go on with setup only if they asked for it.
 ## 1. Look (read only)
 
 - `.freeride.json`: linked, and to which project id?
-- FreeRide blocks (`<!-- freeride-start -->` … `<!-- freeride-end -->`) in `AGENTS.md`, `CLAUDE.md`, `.claude/CLAUDE.md`: how many in each, and do they match the template (`templates/claude-md-block.md`, three folders up from this file)?
+- FreeRide blocks (`<!-- freeride-start -->` … `<!-- freeride-end -->`) in `AGENTS.md`, `CLAUDE.md`, `.claude/CLAUDE.md`: how many in each, and do they match their template (`templates/agents-md-block.md` for `AGENTS.md`, `templates/claude-md-block.md` for the Claude file, three folders up from this file)?
 - Old hand-made setup: Codex `.codex/config.toml` `[mcp_servers.freeride]` and FreeRide nudges in `.codex/hooks.json`; Cursor `.cursor/mcp.json` `freeride` server and nudges in `.cursor/hooks.json`. An old entry may hold `SUPABASE_SERVICE_ROLE_KEY`: **never print its values**, only say it exists.
 - Both the plugin's FreeRide tools and an old connection's tools present = FreeRide connected twice.
 
@@ -31,7 +31,7 @@ Setup isn't a work session: don't call `end_session` for it. Leave the session o
 ## 3. Plan, then ask once
 
 - **Link:** `.freeride.json` = `{ "project": "<id>" }`. Committed, it links teammates too.
-- **Rules block** in two files, so the repo is ready in every agent (Codex and Cursor read `AGENTS.md`; Claude Code reads `CLAUDE.md`). Content: the template's text plus one line, inside the markers:
+- **Rules block** in two files, so the repo is ready in every agent (Codex and Cursor read `AGENTS.md`; Claude Code reads `CLAUDE.md`). Content: the file's template (`templates/agents-md-block.md` for `AGENTS.md`, `templates/claude-md-block.md` for the Claude file) plus one line, inside the markers:
   `FreeRide project: <name> (id <id>). Pass the id as project_id to start_session.`
   Cursor can't send the project with each connection, so this line is how its agent knows it.
   - **`AGENTS.md`** at the repo root, created if missing.

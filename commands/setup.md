@@ -8,7 +8,7 @@ Set up FreeRide for this repo. **Show every change first and ask once. Never del
 
 - `.freeride.json`: which `project` id?
 - `.mcp.json`: a server pointing at `mcp.freeride.dev` is an older setup (`npx freeride init`). Note its name and `?project=<id>`.
-- FreeRide blocks (`<!-- freeride-start -->` … `<!-- freeride-end -->`) in `CLAUDE.md`, `.claude/CLAUDE.md`, `AGENTS.md`: how many in each, and do they match `${CLAUDE_PLUGIN_ROOT}/templates/claude-md-block.md`?
+- FreeRide blocks (`<!-- freeride-start -->` … `<!-- freeride-end -->`) in `CLAUDE.md`, `.claude/CLAUDE.md`, `AGENTS.md`: how many in each, and do they match their template (`${CLAUDE_PLUGIN_ROOT}/templates/claude-md-block.md` for the Claude file, `${CLAUDE_PLUGIN_ROOT}/templates/agents-md-block.md` for `AGENTS.md`)?
 - Old hook scripts in `.claude/hooks/` (`post-compact-reminder.sh`, `pre-edit-freeride-nudge.sh`, `post-edit-tracking-nudge.sh`, `post-build-tracking-nudge.sh`) and the entries running them in `.claude/settings.json` / `.claude/settings.local.json`.
 - Old files: `.claude/commands/freeride-on.md`, `freeride-off.md`, `.claude/.freeride-version`.
 - `claude mcp list`: is there a `claude.ai freeride` connector?
@@ -28,7 +28,7 @@ Only create files or edit in place; delete nothing (safe under auto mode).
 
 - **Back up** every file you'll edit to `.claude/freeride-backup-<YYYY-MM-DD>/`, and add `.claude/freeride-backup-*/` to `.gitignore` (backups can hold keys).
 - **Link:** `.freeride.json` = `{ "project": "<id>" }`. Committed, it links teammates too.
-- **Rules block** in two files, so the repo is ready in every agent (Claude Code reads `CLAUDE.md`; Codex and Cursor read `AGENTS.md`). Content: the template's text plus one line, inside the markers:
+- **Rules block** in two files, so the repo is ready in every agent (Claude Code reads `CLAUDE.md`; Codex and Cursor read `AGENTS.md`). Content: the file's template (`templates/claude-md-block.md` for the Claude file, `templates/agents-md-block.md` for `AGENTS.md`) plus one line, inside the markers:
   `FreeRide project: <name> (id <id>). Pass the id as project_id to start_session.`
   - **Claude file:** Claude Code loads both `CLAUDE.md` and `.claude/CLAUDE.md`, so only one may hold the block. Use the one that has it; if both do, keep `.claude/CLAUDE.md`'s and remove the other block. If neither has it, use whichever file exists (`CLAUDE.md` first); if neither exists, create `CLAUDE.md`.
   - **`AGENTS.md`** at the repo root, created if missing.

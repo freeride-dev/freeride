@@ -19,12 +19,20 @@ TOOL_INPUT_COMMAND=$(echo "$INPUT" | jq -r '.tool_input.command // empty')
 EXIT_CODE=$(echo "$INPUT" | jq -r '.tool_response.exitCode // .tool_response.exit_code // empty')
 TRANSCRIPT=$(echo "$INPUT" | jq -r '.transcript_path // empty')
 
+# Only the command's own words count: quoted text (a grep pattern, a commit
+# message) is dropped, and a word must stand on its own (between spaces or
+# ; & | ( ) :), so `grep "git push"` or a path like post-build-tracking-nudge.sh
+# isn't a push or a build.
+CMD=$(printf '%s' "$TOOL_INPUT_COMMAND" | tr '\n' ' ' | sed -E "s/'[^']*'//g; s/\"[^\"]*\"//g")
+B='(^|[[:space:];&|(])'
+E='($|[[:space:];&|):])'
+
 # Shipping (a push, a deploy, a publish or release) is when work FreeRide is
 # waiting on usually goes out, and nothing else tells the agent: FreeRide can't
 # see pushes or deploys. Remind it to close the waits this answers. Fires on
 # every successful ship command, edits or not.
-if echo "$TOOL_INPUT_COMMAND" | grep -qiE '\bgit push\b|\b(fly|flyctl) deploy\b|\bvercel( +(--prod|deploy|--prebuilt)|$)|\bnpm publish\b|\bgh release create\b|\bwrangler (deploy|publish)\b|\bnetlify deploy\b|\bfirebase deploy\b|\bsupabase (db push|functions deploy)\b' \
-  && ! echo "$TOOL_INPUT_COMMAND" | grep -qE -- '--dry-run|-n\b'; then
+if echo "$CMD" | grep -qiE "${B}(git[[:space:]]+push|(fly|flyctl) deploy|vercel +(--prod|deploy|--prebuilt)|npm publish|gh release create|wrangler (deploy|publish)|netlify deploy|firebase deploy|supabase (db push|functions deploy))${E}|${B}vercel[[:space:]]*($|[;&|)])" \
+  && ! echo "$CMD" | grep -qE -- '--dry-run|-n\b'; then
   if [ -z "$EXIT_CODE" ] || [ "$EXIT_CODE" = "0" ]; then
     cat <<'HOOK_OUTPUT'
 {
@@ -39,7 +47,7 @@ HOOK_OUTPUT
 fi
 
 # Only care about build/test/compile commands
-if ! echo "$TOOL_INPUT_COMMAND" | grep -qiE '\b(build|test|compile|check|lint)\b|^tsc|^make\b|^cargo (build|test|check)|^go (build|test)|^pytest|^jest|^vitest|^rspec|^gradle|^mvn|^flutter (build|test)|^swift (build|test)'; then
+if ! echo "$CMD" | grep -qiE "${B}(build|test|compile|check|lint|tsc|make|pytest|jest|vitest|rspec|gradle|mvn)${E}"; then
   exit 0
 fi
 

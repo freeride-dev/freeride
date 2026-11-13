@@ -10,13 +10,19 @@ root=$(dirname "$0")/..
 # Which agent runs this: Cursor sets CURSOR_PROJECT_DIR (and CLAUDE_PROJECT_DIR),
 # Codex sets PLUGIN_ROOT but not CLAUDE_PROJECT_DIR, Claude Code the rest.
 # Codex and Cursor read AGENTS.md; Claude Code reads CLAUDE.md.
+reads_agents_md() {
+  [ -n "$CURSOR_PROJECT_DIR" ] || { [ -z "$CLAUDE_PROJECT_DIR" ] && [ -n "$PLUGIN_ROOT" ]; }
+}
 has_block() {
-  if [ -n "$CURSOR_PROJECT_DIR" ] || { [ -z "$CLAUDE_PROJECT_DIR" ] && [ -n "$PLUGIN_ROOT" ]; }; then
+  if reads_agents_md; then
     grep -qs "freeride-start" "$dir/AGENTS.md"
   else
     grep -qs "freeride-start" "$dir/CLAUDE.md" "$dir/.claude/CLAUDE.md"
   fi
 }
+# AGENTS.md has its own version of the block (templates/agents-md-block.md:
+# start_session once per conversation); CLAUDE.md keeps claude-md-block.md.
+stamp_of() { sed -n 's/.*<!-- freeride-rules: \([0-9-]*\) -->.*/\1/p' "$1" | head -n 1; }
 
 # An old `freeride init` connection that's still switched on. /freeride:setup
 # switches it off with disabledMcpjsonServers instead of editing .mcp.json.
@@ -55,13 +61,22 @@ echo "This repo is linked to FreeRide project $project. Pass this id as project_
 # plugin's own block. Claude Code and Codex get the same instruction from the
 # server (mcp-server/src/rules-refresh.ts), which needs no plugin update.
 if [ -n "$CURSOR_PROJECT_DIR" ] && has_block; then
-  current=$(sed -n 's/.*<!-- freeride-rules: \([0-9-]*\) -->.*/\1/p' "$root/templates/claude-md-block.md" | head -n 1)
+  current=$(stamp_of "$root/templates/claude-md-block.md")
+  agents_current=$(stamp_of "$root/templates/agents-md-block.md")
   update=""
   ask=""
+  claude_stale=""
+  agents_stale=""
   for entry in $(sh "$root/scripts/rules-state.sh" "$dir"); do
     file=${entry%%=*}
     rest=${entry#*=}
-    [ "${rest%%,*}" = "$current" ] && continue
+    if [ "$file" = "AGENTS.md" ]; then
+      [ "${rest%%,*}" = "$agents_current" ] && continue
+      agents_stale=1
+    else
+      [ "${rest%%,*}" = "$current" ] && continue
+      claude_stale=1
+    fi
     if grep -q "^${rest#*,} " "$root/templates/known-blocks.txt"; then
       update="$update${update:+ and }$file"
     else
@@ -69,16 +84,25 @@ if [ -n "$CURSOR_PROJECT_DIR" ] && has_block; then
     fi
   done
   if [ -n "$update$ask" ]; then
-    echo "FreeRide's rules in this repo are out of date (current version $current)."
-    [ -n "$update" ] && echo "Offer the user, in one short line, to update them in $update, for example \"FreeRide's rules in ${update%% and *} are out of date. Want me to update them?\" If they agree, replace everything from <!-- freeride-start --> to <!-- freeride-end --> with the block below, keep the file's \"FreeRide project:\" line, if it has one, just above <!-- freeride-end -->, and change nothing outside the markers."
+    echo "FreeRide's rules in this repo are out of date."
+    [ -n "$update" ] && echo "Offer the user, in one short line, to update them in $update, for example \"FreeRide's rules in ${update%% and *} are out of date. Want me to update them?\" If they agree, replace everything from <!-- freeride-start --> to <!-- freeride-end --> with the file's block below, keep the file's \"FreeRide project:\" line, if it has one, just above <!-- freeride-end -->, and change nothing outside the markers."
     [ -n "$ask" ] && echo "The block in $ask was edited by hand. Mention that, in the same offer. If they agree, replace it the same way and keep their own added lines just below <!-- freeride-end -->."
-    echo "Offer once, alongside what the user asked; it doesn't need to come first. If they say no, leave it. The block:"
-    cat "$root/templates/claude-md-block.md"
+    echo "Offer once, alongside what the user asked; it doesn't need to come first. If they say no, leave it."
+    if [ -n "$agents_stale" ]; then
+      echo "The block for AGENTS.md:"
+      cat "$root/templates/agents-md-block.md"
+    fi
+    if [ -n "$claude_stale" ]; then
+      echo "The block for CLAUDE.md or .claude/CLAUDE.md:"
+      cat "$root/templates/claude-md-block.md"
+    fi
   fi
 fi
 
 if ! has_block; then
-  sed -e '/freeride-start/d' -e '/freeride-end/d' "$root/templates/claude-md-block.md"
+  template="$root/templates/claude-md-block.md"
+  reads_agents_md && template="$root/templates/agents-md-block.md"
+  sed -e '/freeride-start/d' -e '/freeride-end/d' "$template"
   echo "(These FreeRide rules come from the FreeRide plugin because this repo's CLAUDE.md or AGENTS.md doesn't have them. The FreeRide setup can add them: /freeride:setup in Claude Code; in Codex or Cursor, ask the agent to set up FreeRide for this repo.)"
 fi
 exit 0

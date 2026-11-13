@@ -3,6 +3,7 @@
 # can be refreshed without asking. Add the new block's checksum whenever the
 # block changes; mcp-server/scripts/rules-refresh-test.mjs prints it and checks
 # this list matches mcp-server/src/known-blocks.ts.
+2296426310 2026-11-13 AGENTS.md block (agents-md-block.md: start_session once per conversation)
 2919352883 2026-10-26 block with the freeride-rules stamp (plugin 0.1.18)
 2135902888 2026-10-26 area_id names, before the stamp (never shipped)
 1296154208 2026-10-26 plugin template, plugin 0.1.16 and 0.1.17
