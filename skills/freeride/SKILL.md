@@ -28,7 +28,7 @@ In a chat app with its own memory, the first time you save to a project in a con
    - After saving, tell the user in one short line what you saved and where, e.g. "Saved to Mealwise: 2 ideas, 1 decision." Then follow up on what the save found (see below).
 4. **Look things up instead of guessing.** For "what did we decide about X" or "what's left on Y", use `search` with the project.
    - Every idea has a short number (its `ref`, like FR-142), and so does every decision (FR-D12, or just D12 in the project you're in). Use them when you mention one to the user, and pass them to any tool in place of the id ("continue FR-142" → `search(id: "FR-142")`).
-5. **Keep items true as things move.** When the user says something about an item that's already saved, update it rather than saving a new one: `update(task_id, …)` with a short `note` for what changed and why, `checked` for the boxes in its checklist that are done now, `due` for a new date, or `status: "done"` once it's finished.
+5. **Keep items true as things move.** When the user says something about an item that's already saved, update it rather than saving a new one: `update(task_id, …)` with a short `note` for what changed and why, `checked` for the boxes in its checklist that are done now, `due` for a new date, `started: true` when they say they've begun it, or `status: "done"` once it's finished.
 6. **Starting something new.** If the user wants to track a new project, offer `create(kind: "project", name, description)`.
 
 ## Ideas, decisions and docs
